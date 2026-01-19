@@ -1,0 +1,29 @@
+---
+tags: 
+  - task 
+  - assignment
+categories:
+  - "[[Coursework]]"
+class: "[[ENG-101 English Class Example]]"
+type: assignment
+status: none
+priority: normal
+due: 2026-01-21
+created: 2026-01-14
+grade: 
+---
+
+# 📝 Assignment 01-14
+
+```datacorejsx
+const { CourseworkView } = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-courseworkView.jsx"));
+return <CourseworkView />;
+```
+## 📋 Requirements
+
+- [ ]
+    
+
+## ✍️ Work
+
+

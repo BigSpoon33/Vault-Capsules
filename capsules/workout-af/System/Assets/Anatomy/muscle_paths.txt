@@ -1,0 +1,20 @@
+# Muscle Paths Found in SVG
+
+1. path2223
+2. path2023
+3. path2033
+4. path2013
+5. path1734
+6. path1286
+7. path950
+8. path1211
+9. path861
+10. path968
+11. path847
+12. path928
+13. path948
+14. path970
+15. path974
+16. path978
+17. path1012
+18. path1191

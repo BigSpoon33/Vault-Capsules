@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muscle Mapper v2 - File Upload</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            gap: 20px;
+        }
+        h1 { margin-bottom: 20px; color: #6b9eff; }
+        .svg-container {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            overflow: auto;
+            max-height: 90vh;
+        }
+        #musclesvg {
+            width: 100%;
+            height: auto;
+            background: white;
+            border-radius: 4px;
+        }
+        #musclesvg path {
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        #musclesvg path:hover {
+            filter: brightness(1.3) drop-shadow(0 0 8px #6b9eff);
+            stroke: #6b9eff !important;
+            stroke-width: 1.5 !important;
+        }
+        #musclesvg path.selected {
+            filter: brightness(1.5) drop-shadow(0 0 12px #00ff00);
+            stroke: #00ff00 !important;
+            stroke-width: 2 !important;
+        }
+        .panel {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #aaa;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            background: #1a1a1a;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        input[type="file"] {
+            padding: 8px;
+            cursor: pointer;
+        }
+        textarea {
+            font-family: monospace;
+            resize: vertical;
+            min-height: 60px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #6b9eff;
+        }
+        input[readonly] {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #6b9eff;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        button:hover { background: #5a8eef; }
+        button.secondary { background: #444; }
+        button.secondary:hover { background: #555; }
+        button.danger { background: #ff4444; }
+        button.danger:hover { background: #ff6666; }
+        #output {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 15px;
+            border: 1px solid #444;
+        }
+        .info {
+            background: #1a3a5a;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .success {
+            background: #1a5a1a;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border-left: 4px solid #44ff44;
+        }
+        .stats {
+            background: #2a4a2a;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #6b9eff;
+        }
+        .muscle-list {
+            max-height: 300px;
+            overflow-y: auto;
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .muscle-item {
+            padding: 8px;
+            margin-bottom: 5px;
+            background: #2a2a2a;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+        .muscle-item:hover { background: #3a3a3a; }
+        .muscle-item button {
+            padding: 4px 8px;
+            margin: 0;
+            width: auto;
+            font-size: 11px;
+        }
+        .muscle-item strong {
+            color: #6b9eff;
+        }
+        .error {
+            background: #5a1a1a;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ff4444;
+        }
+        #pathInfo {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 11px;
+            font-family: monospace;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        #uploadSection {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .upload-area {
+            border: 2px dashed #6b9eff;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            background: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-area:hover {
+            background: #252525;
+            border-color: #8bb4ff;
+        }
+        .upload-area.dragover {
+            background: #2a3a5a;
+            border-color: #44ff44;
+        }
+        #workArea {
+            display: none;
+        }
+        #workArea.active {
+            display: grid;
+        }
+    </style>
+</head>
+<body>
+    <div id="uploadSection">
+        <h1>🎯 Muscle Mapper v2</h1>
+        <div class="info">
+            <strong>Step 1: Load Your SVG File</strong><br>
+            Click below to select "Muscles_front_and_back.svg" or drag and drop it here.
+        </div>
+
+        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+            <h2 style="color: #6b9eff; margin-bottom: 10px;">📁 Click to Select SVG File</h2>
+            <p style="color: #888;">or drag and drop here</p>
+            <input type="file" id="fileInput" accept=".svg" style="display: none;">
+        </div>
+
+        <div id="loadStatus" style="margin-top: 15px;"></div>
+    </div>
+
+    <div class="container" id="workArea">
+        <div class="svg-container">
+            <h1>🎯 Muscle Mapper</h1>
+
+            <div class="success">
+                ✅ SVG loaded successfully! Click on any path to start mapping.
+            </div>
+
+            <div id="svgcontainer">
+                <p style="color: #888; text-align: center; padding: 40px;">SVG will appear here...</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalPaths">0</div>
+                    <div>Total Paths</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="mappedPaths">0</div>
+                    <div>Mapped</div>
+                </div>
+            </div>
+
+            <h2 style="margin-bottom: 15px; color: #6b9eff;">🔍 Jump to Path</h2>
+            <div class="form-group">
+                <label>Enter Path ID to Find</label>
+                <div style="display: flex; gap: 5px;">
+                    <input type="text" id="jumpToPathId" placeholder="e.g., path1234" style="flex: 1;">
+                    <button onclick="jumpToPath()" style="width: auto; padding: 10px 20px; margin: 0;">Go</button>
+                </div>
+            </div>
+
+            <details style="margin-bottom: 15px;">
+                <summary style="cursor: pointer; padding: 10px; background: #1a1a1a; border-radius: 4px; margin-bottom: 5px;">
+                    💡 Suggested Paths by Color
+                </summary>
+                <div style="padding: 10px; background: #1a1a1a; border-radius: 4px; font-size: 11px; max-height: 200px; overflow-y: auto;">
+                    <strong style="color: #f39079;">Muscle Paths (pink #f39079):</strong><br>
+                    <div style="display: flex; flex-wrap: wrap; gap: 5px; margin: 5px 0 10px 0;">
+                        <button onclick="jumpToPath('path2223')" class="secondary" style="width: auto; padding: 4px 8px; margin: 0; font-size: 10px;">path2223</button>
+                        <button onclick="jumpToPath('path2023')" class="secondary" style="width: auto; padding: 4px 8px; margin: 0; font-size: 10px;">path2023</button>
+                        <button onclick="jumpToPath('path2033')" class="secondary" style="width: auto; padding: 4px 8px; margin: 0; font-size: 10px;">path2033</button>
+                        <button onclick="jumpToPath('path2013')" class="secondary" style="width: auto; padding: 4px 8px; margin: 0; font-size: 10px;">path2013</button>
+                        <button onclick="jumpToPath('path1734')" class="secondary" style="width: auto; padding: 4px 8px; margin: 0; font-size: 10px;">path1734</button>
+                        <button onclick="jumpToPath('path1286')" class="secondary" style="width: auto; padding: 4px 8px; margin: 0; font-size: 10px;">path1286</button>
+                    </div>
+                    <strong style="color: #aaa;">Gradient Paths (individual muscles):</strong><br>
+                    <div style="display: flex; flex-wrap: wrap; gap: 5px; margin: 5px 0;">
+                        <button onclick="jumpToPath('path908')" class="secondary" style="width: auto; padding: 4px 8px; margin: 0; font-size: 10px;">path908</button>
+                        <button onclick="jumpToPath('path919')" class="secondary" style="width: auto; padding: 4px 8px; margin: 0; font-size: 10px;">path919</button>
+                        <button onclick="jumpToPath('path998')" class="secondary" style="width: auto; padding: 4px 8px; margin: 0; font-size: 10px;">path998</button>
+                        <button onclick="jumpToPath('path1047')" class="secondary" style="width: auto; padding: 4px 8px; margin: 0; font-size: 10px;">path1047</button>
+                        <button onclick="jumpToPath('path1109')" class="secondary" style="width: auto; padding: 4px 8px; margin: 0; font-size: 10px;">path1109</button>
+                    </div>
+                </div>
+            </details>
+
+            <h2 style="margin-bottom: 15px; color: #6b9eff;">Selected Path</h2>
+
+            <div class="form-group">
+                <label>SVG Path ID</label>
+                <input type="text" id="pathId" readonly>
+            </div>
+
+            <div id="pathInfo"></div>
+
+            <div class="form-group">
+                <label>Muscle/Structure Key</label>
+                <input type="text" id="muscleKey" placeholder="e.g., pectoralis_major_left">
+                <small style="color: #888; font-size: 11px;">Use underscores, no spaces. Be specific!</small>
+            </div>
+
+            <div class="form-group">
+                <label>Anatomical Name</label>
+                <input type="text" id="muscleLabel" placeholder="e.g., Pectoralis Major (Left)">
+            </div>
+
+            <div class="form-group">
+                <label>View</label>
+                <select id="view">
+                    <option value="anterior">Anterior (Front)</option>
+                    <option value="posterior">Posterior (Back)</option>
+                    <option value="both">Both Views</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Type (Optional)</label>
+                <select id="structureType">
+                    <option value="muscle">Muscle</option>
+                    <option value="tendon">Tendon/Fascia</option>
+                    <option value="bone">Bone</option>
+                    <option value="skin">Skin</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Notes (Optional)</label>
+                <textarea id="notes" placeholder="Any additional notes..."></textarea>
+            </div>
+
+            <button onclick="addMuscle()">✅ Add to Mapping</button>
+            <button class="secondary" onclick="clearForm()">Clear Form</button>
+
+            <h3 style="margin-top: 25px; margin-bottom: 10px; color: #6b9eff;">
+                Mapped Structures (<span id="mappedCount">0</span>)
+            </h3>
+            <div class="muscle-list" id="muscleList"></div>
+
+            <h3 style="margin-top: 25px; margin-bottom: 10px; color: #6b9eff;">Generated JSON</h3>
+            <button class="secondary" onclick="copyJSON()">📋 Copy to Clipboard</button>
+            <button class="secondary" onclick="downloadJSON()">💾 Download JSON</button>
+            <button class="danger" onclick="clearAllMappings()">🗑️ Clear All</button>
+            <div id="output">{}</div>
+        </div>
+    </div>
+
+    <script>
+        let muscleMapping = {};
+        let selectedPathId = null;
+        let allPaths = [];
+
+        // Load saved mapping
+        const savedMapping = localStorage.getItem('muscleMapping');
+        if (savedMapping) {
+            try {
+                muscleMapping = JSON.parse(savedMapping);
+                updateOutput();
+                updateMuscleList();
+            } catch (e) {
+                console.error('Failed to load saved mapping:', e);
+            }
+        }
+
+        // File input handling
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        function handleFile(file) {
+            if (!file.name.endsWith('.svg')) {
+                showError('Please select an SVG file (.svg)');
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const svgContent = e.target.result;
+                loadSVG(svgContent);
+            };
+
+            reader.onerror = () => {
+                showError('Failed to read file');
+            };
+
+            showStatus('📖 Reading file...');
+            reader.readAsText(file);
+        }
+
+        function loadSVG(svgContent) {
+            try {
+                document.getElementById('svgcontainer').innerHTML = svgContent;
+                const svg = document.getElementById('svgcontainer').querySelector('svg');
+
+                if (!svg) {
+                    throw new Error('Invalid SVG structure');
+                }
+
+                svg.id = 'musclesvg';
+
+                // Find all paths
+                const paths = svg.querySelectorAll('path');
+                allPaths = Array.from(paths);
+                document.getElementById('totalPaths').textContent = allPaths.length;
+
+                // Add click handlers
+                paths.forEach(path => {
+                    const pathId = path.id;
+                    if (!pathId) return;
+
+                    path.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        selectPath(path);
+                    });
+                });
+
+                updateStats();
+                showStatus(`✅ Loaded SVG with ${allPaths.length} paths!`, true);
+
+                // Show work area
+                document.getElementById('uploadSection').style.display = 'none';
+                document.getElementById('workArea').classList.add('active');
+
+                console.log(`✓ Loaded SVG with ${allPaths.length} paths`);
+            } catch (error) {
+                showError(`Failed to load SVG: ${error.message}`);
+            }
+        }
+
+        function showStatus(message, isSuccess = false) {
+            const status = document.getElementById('loadStatus');
+            status.className = isSuccess ? 'success' : 'info';
+            status.textContent = message;
+        }
+
+        function showError(message) {
+            const status = document.getElementById('loadStatus');
+            status.className = 'error';
+            status.textContent = '❌ ' + message;
+        }
+
+        function selectPath(path) {
+            allPaths.forEach(p => p.classList.remove('selected'));
+            path.classList.add('selected');
+            selectedPathId = path.id;
+            document.getElementById('pathId').value = path.id;
+
+            const style = path.getAttribute('style') || '';
+            const fill = style.match(/fill:([^;]+)/)?.[1] || 'none';
+            const d = path.getAttribute('d') || '';
+            const dPreview = d.length > 100 ? d.substring(0, 100) + '...' : d;
+
+            document.getElementById('pathInfo').innerHTML = `
+                <strong>Fill:</strong> ${fill}<br>
+                <strong>Path:</strong> ${dPreview}
+            `;
+
+            const existing = muscleMapping[selectedPathId];
+            if (existing) {
+                document.getElementById('muscleKey').value = existing.key || '';
+                document.getElementById('muscleLabel').value = existing.label || '';
+                document.getElementById('view').value = existing.view || 'anterior';
+                document.getElementById('structureType').value = existing.type || 'muscle';
+                document.getElementById('notes').value = existing.notes || '';
+            } else {
+                clearForm(true);
+            }
+
+            path.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function jumpToPath(pathId) {
+            // If pathId is provided directly (from button), use it
+            // Otherwise, get it from the input field
+            if (!pathId) {
+                pathId = document.getElementById('jumpToPathId').value.trim();
+            }
+
+            if (!pathId) {
+                alert('Please enter a path ID');
+                return;
+            }
+
+            // Find the path in allPaths
+            const path = allPaths.find(p => p.id === pathId);
+
+            if (!path) {
+                alert(`Path "${pathId}" not found in SVG. Check the ID and try again.`);
+                return;
+            }
+
+            // Select the path
+            selectPath(path);
+
+            // Clear the input field
+            document.getElementById('jumpToPathId').value = '';
+
+            console.log(`Jumped to path: ${pathId}`);
+        }
+
+        // Add Enter key support for jump to path
+        document.addEventListener('DOMContentLoaded', () => {
+            const jumpInput = document.getElementById('jumpToPathId');
+            if (jumpInput) {
+                jumpInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        jumpToPath();
+                    }
+                });
+            }
+        });
+
+        function addMuscle() {
+            if (!selectedPathId) {
+                alert('Please select a path first!');
+                return;
+            }
+
+            const muscleKey = document.getElementById('muscleKey').value.trim();
+            const muscleLabel = document.getElementById('muscleLabel').value.trim();
+            const view = document.getElementById('view').value;
+            const structureType = document.getElementById('structureType').value;
+            const notes = document.getElementById('notes').value.trim();
+
+            if (!muscleKey || !muscleLabel) {
+                alert('Please fill in both key and anatomical name!');
+                return;
+            }
+
+            muscleMapping[selectedPathId] = {
+                key: muscleKey,
+                label: muscleLabel,
+                view: view,
+                type: structureType,
+                notes: notes || undefined
+            };
+
+            localStorage.setItem('muscleMapping', JSON.stringify(muscleMapping));
+
+            updateOutput();
+            updateMuscleList();
+            updateStats();
+
+            // Auto-advance to next unmapped path
+            const currentIndex = allPaths.findIndex(p => p.id === selectedPathId);
+            for (let i = currentIndex + 1; i < allPaths.length; i++) {
+                if (allPaths[i].id && !muscleMapping[allPaths[i].id]) {
+                    selectPath(allPaths[i]);
+                    return;
+                }
+            }
+
+            clearForm();
+        }
+
+        function updateOutput() {
+            const output = JSON.stringify(muscleMapping, null, 2);
+            document.getElementById('output').textContent = output;
+        }
+
+        function updateMuscleList() {
+            const list = document.getElementById('muscleList');
+            list.innerHTML = '';
+
+            const entries = Object.entries(muscleMapping);
+            document.getElementById('mappedCount').textContent = entries.length;
+
+            for (const [pathId, data] of entries) {
+                const item = document.createElement('div');
+                item.className = 'muscle-item';
+                item.innerHTML = `
+                    <div onclick="highlightPath('${pathId}')">
+                        <strong>${data.key}</strong><br>
+                        <small>${data.label} (${pathId})</small>
+                    </div>
+                    <button onclick="deleteMuscle('${pathId}')">Delete</button>
+                `;
+                list.appendChild(item);
+            }
+        }
+
+        function updateStats() {
+            const mapped = Object.keys(muscleMapping).length;
+            document.getElementById('mappedPaths').textContent = mapped;
+        }
+
+        function highlightPath(pathId) {
+            const path = allPaths.find(p => p.id === pathId);
+            if (path) selectPath(path);
+        }
+
+        function deleteMuscle(pathId) {
+            if (confirm(`Delete mapping for ${pathId}?`)) {
+                delete muscleMapping[pathId];
+                localStorage.setItem('muscleMapping', JSON.stringify(muscleMapping));
+                updateOutput();
+                updateMuscleList();
+                updateStats();
+            }
+        }
+
+        function clearForm(keepSelection = false) {
+            document.getElementById('muscleKey').value = '';
+            document.getElementById('muscleLabel').value = '';
+            document.getElementById('view').value = 'anterior';
+            document.getElementById('structureType').value = 'muscle';
+            document.getElementById('notes').value = '';
+            document.getElementById('pathInfo').innerHTML = '';
+
+            if (!keepSelection) {
+                allPaths.forEach(p => p.classList.remove('selected'));
+                selectedPathId = null;
+                document.getElementById('pathId').value = '';
+            }
+        }
+
+        function copyJSON() {
+            const output = document.getElementById('output').textContent;
+            navigator.clipboard.writeText(output).then(() => {
+                alert('✅ JSON copied to clipboard!');
+            }).catch(err => {
+                alert('❌ Failed to copy: ' + err);
+            });
+        }
+
+        function downloadJSON() {
+            const output = document.getElementById('output').textContent;
+            const blob = new Blob([output], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'muscle_mapping.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function clearAllMappings() {
+            if (confirm('⚠️ Are you sure you want to delete ALL mappings? This cannot be undone!')) {
+                muscleMapping = {};
+                localStorage.removeItem('muscleMapping');
+                updateOutput();
+                updateMuscleList();
+                updateStats();
+                clearForm();
+            }
+        }
+
+        // Auto-save every 30 seconds
+        setInterval(() => {
+            if (Object.keys(muscleMapping).length > 0) {
+                localStorage.setItem('muscleMapping', JSON.stringify(muscleMapping));
+            }
+        }, 30000);
+    </script>
+</body>
+</html>

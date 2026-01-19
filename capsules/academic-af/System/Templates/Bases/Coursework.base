@@ -1,0 +1,221 @@
+filters:
+  and:
+    - categories.contains(link("Coursework"))
+    - '!file.name.contains("Template")'
+properties:
+  file.name:
+    displayName: Title
+  note.class:
+    displayName: Class
+  note.type:
+    displayName: Type
+  note.due:
+    displayName: Due
+  note.assigned:
+    displayName: Assigned
+  note.status:
+    displayName: Status
+  note.grade:
+    displayName: Grade
+  note.topics:
+    displayName: Topics
+views:
+  - type: table
+    name: Due Soon
+    filters:
+      and:
+        - "!due.isEmpty()"
+        - date(due) >= today()
+        - '!list(status).contains("completed")'
+        - '!list(status).contains("submitted")'
+        - '!list(status).contains("graded")'
+    order:
+      - file.name
+      - class
+      - type
+      - due
+      - status
+    sort:
+      - property: due
+        direction: ASC
+    limit: 20
+    columnSize:
+      file.name: 250
+      note.class: 150
+      note.due: 100
+  - type: table
+    name: Overdue
+    filters:
+      and:
+        - "!due.isEmpty()"
+        - date(due) < today()
+        - '!list(status).contains("completed")'
+        - '!list(status).contains("submitted")'
+        - '!list(status).contains("graded")'
+    order:
+      - file.name
+      - class
+      - type
+      - due
+      - status
+    sort:
+      - property: due
+        direction: ASC
+    columnSize:
+      file.name: 250
+      note.class: 150
+      note.due: 100
+  - type: table
+    name: All Coursework
+    order:
+      - file.name
+      - class
+      - type
+      - due
+      - status
+      - grade
+    sort:
+      - property: due
+        direction: DESC
+    columnSize:
+      file.name: 250
+      note.class: 150
+  - type: table
+    name: By Class
+    filters:
+      and:
+        - list(class).contains(this)
+    order:
+      - file.name
+      - type
+      - due
+      - status
+      - grade
+    sort:
+      - property: due
+        direction: DESC
+    columnSize:
+      file.name: 250
+      note.type: 100
+  - type: table
+    name: By Type
+    order:
+      - type
+      - file.name
+      - class
+      - due
+      - status
+    sort:
+      - property: type
+        direction: ASC
+      - property: due
+        direction: DESC
+    columnSize:
+      note.type: 100
+      file.name: 230
+  - type: table
+    name: Assignments
+    filters:
+      and:
+        - list(type).contains("assignment")
+    order:
+      - file.name
+      - class
+      - due
+      - status
+      - grade
+    sort:
+      - property: due
+        direction: DESC
+    columnSize:
+      file.name: 250
+      note.class: 150
+  - type: table
+    name: Exams
+    filters:
+      and:
+        - or:
+            - list(type).contains("exam")
+            - list(type).contains("quiz")
+            - list(type).contains("midterm")
+            - list(type).contains("final")
+    order:
+      - file.name
+      - class
+      - due
+      - status
+      - grade
+    sort:
+      - property: due
+        direction: DESC
+    columnSize:
+      file.name: 250
+      note.class: 150
+  - type: table
+    name: Projects
+    filters:
+      and:
+        - list(type).contains("project")
+    order:
+      - file.name
+      - class
+      - due
+      - status
+      - grade
+    sort:
+      - property: due
+        direction: DESC
+    columnSize:
+      file.name: 250
+      note.class: 150
+  - type: table
+    name: Graded
+    filters:
+      and:
+        - "!grade.isEmpty()"
+    order:
+      - file.name
+      - class
+      - type
+      - due
+      - grade
+    sort:
+      - property: due
+        direction: DESC
+    columnSize:
+      file.name: 250
+      note.class: 150
+      note.grade: 80
+  - type: table
+    name: Not Started
+    filters:
+      and:
+        - list(status).contains("none")
+    order:
+      - file.name
+      - class
+      - type
+      - due
+    sort:
+      - property: due
+        direction: ASC
+    columnSize:
+      file.name: 250
+      note.class: 150
+  - type: table
+    name: In Progress
+    filters:
+      and:
+        - list(status).contains("in-progress")
+    order:
+      - file.name
+      - class
+      - type
+      - due
+      - status
+    sort:
+      - property: due
+        direction: ASC
+    columnSize:
+      file.name: 250
+      note.class: 150

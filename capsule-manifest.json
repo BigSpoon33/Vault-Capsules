@@ -1,0 +1,299 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-19T00:00:00.000Z",
+  "repoUrl": "https://github.com/BigSpoon33/Vault-Capsules",
+  "capsules": [
+    {
+      "id": "glo-core",
+      "name": "Glo* Components",
+      "version": "1.0.0",
+      "description": "Core UI component library - buttons, toggles, cards, badges, inputs, and more",
+      "icon": "🎨",
+      "author": "BigSpoon33",
+      "source": "Core",
+      "files": [
+        { "src": "capsules/active-af/System/Scripts/Components/dc-gloButton.jsx", "dest": "System/Scripts/Components/dc-gloButton.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-gloToggle.jsx", "dest": "System/Scripts/Components/dc-gloToggle.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-gloCard.jsx", "dest": "System/Scripts/Components/dc-gloCard.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-gloBadge.jsx", "dest": "System/Scripts/Components/dc-gloBadge.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-gloInput.jsx", "dest": "System/Scripts/Components/dc-gloInput.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-gloSelect.jsx", "dest": "System/Scripts/Components/dc-gloSelect.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-gloTabs.jsx", "dest": "System/Scripts/Components/dc-gloTabs.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-gloDial.jsx", "dest": "System/Scripts/Components/dc-gloDial.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-gloBar.jsx", "dest": "System/Scripts/Components/dc-gloBar.jsx" }
+      ],
+      "activities": []
+    },
+    {
+      "id": "theme-system",
+      "name": "Theme System",
+      "version": "1.0.0",
+      "description": "Complete theme management with live preview, editor, and presets",
+      "icon": "🎭",
+      "author": "BigSpoon33",
+      "source": "Core",
+      "files": [
+        { "src": "capsules/active-af/System/Scripts/Core/dc-themeProvider.jsx", "dest": "System/Scripts/Core/dc-themeProvider.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Core/dc-gradientUtils.jsx", "dest": "System/Scripts/Core/dc-gradientUtils.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-colorPicker.jsx", "dest": "System/Scripts/Components/dc-colorPicker.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-backgroundPicker.jsx", "dest": "System/Scripts/Components/dc-backgroundPicker.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-gradientBuilder.jsx", "dest": "System/Scripts/Components/dc-gradientBuilder.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-themePreviewContent.jsx", "dest": "System/Scripts/Components/dc-themePreviewContent.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-stickyPreview.jsx", "dest": "System/Scripts/Components/dc-stickyPreview.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-themeDashboard.jsx", "dest": "System/Scripts/Widgets/dc-themeDashboard.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-themeEditor.jsx", "dest": "System/Scripts/Widgets/dc-themeEditor.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-themeStudio.jsx", "dest": "System/Scripts/Widgets/dc-themeStudio.jsx" }
+      ],
+      "activities": []
+    },
+    {
+      "id": "sleep-tracker",
+      "name": "Sleep Tracker",
+      "version": "1.0.0",
+      "description": "Track sleep hours and quality with morning routine support",
+      "icon": "🌅",
+      "author": "BigSpoon33",
+      "source": "Active AF",
+      "widget": "dc-sleepTracker",
+      "files": [
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-sleepTracker.jsx", "dest": "System/Scripts/Widgets/dc-sleepTracker.jsx" }
+      ],
+      "activities": [
+        { "id": "sleep", "name": "Sleep", "type": "value", "field": "sleep-hours", "goal": 8, "unit": "hrs", "icon": "🌙", "color": "#00B894" }
+      ]
+    },
+    {
+      "id": "activity-logger",
+      "name": "Activity Logger",
+      "version": "1.0.0",
+      "description": "Log and track daily activities like mood, energy, and water intake",
+      "icon": "📊",
+      "author": "BigSpoon33",
+      "source": "Active AF",
+      "widget": "dc-activityLogger",
+      "files": [
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-activityLogger.jsx", "dest": "System/Scripts/Widgets/dc-activityLogger.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-activities.jsx", "dest": "System/Scripts/Widgets/dc-activities.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-activityManager.jsx", "dest": "System/Scripts/Widgets/dc-activityManager.jsx" }
+      ],
+      "activities": [
+        { "id": "mood", "name": "Mood", "type": "value", "field": "mood", "goal": 5, "icon": "😊", "color": "#A29BFE" },
+        { "id": "energy", "name": "Energy", "type": "value", "field": "energy", "goal": 5, "icon": "⚡", "color": "#FDCB6E" },
+        { "id": "water", "name": "Water", "type": "value", "field": "water-ml", "goal": 3000, "unit": "ml", "icon": "💧", "color": "#0984E3" }
+      ]
+    },
+    {
+      "id": "activity-tracker",
+      "name": "Activity Trends",
+      "version": "1.0.0",
+      "description": "Heatmaps and trend graphs for your tracked activities",
+      "icon": "📉",
+      "author": "BigSpoon33",
+      "source": "Active AF",
+      "widget": "dc-activityTracker",
+      "files": [
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-activityTracker.jsx", "dest": "System/Scripts/Widgets/dc-activityTracker.jsx" }
+      ],
+      "activities": []
+    },
+    {
+      "id": "meditation-timer",
+      "name": "Meditation Timer",
+      "version": "1.0.0",
+      "description": "Guided meditation timer with animations",
+      "icon": "🧘",
+      "author": "BigSpoon33",
+      "source": "Active AF",
+      "widget": "dc-meditationTimer",
+      "files": [
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-meditationTimer.jsx", "dest": "System/Scripts/Widgets/dc-meditationTimer.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Components/dc-meditationAnimations.jsx", "dest": "System/Scripts/Components/dc-meditationAnimations.jsx" }
+      ],
+      "activities": [
+        { "id": "meditation", "name": "Meditation", "type": "value", "field": "meditation-minutes", "goal": 15, "unit": "min", "icon": "🧘", "color": "#81ECEC" }
+      ]
+    },
+    {
+      "id": "evening-reflection",
+      "name": "Evening Reflection",
+      "version": "1.0.0",
+      "description": "Evening reflection and gratitude journaling",
+      "icon": "🌙",
+      "author": "BigSpoon33",
+      "source": "Active AF",
+      "widget": "dc-eveningReflection",
+      "files": [
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-eveningReflection.jsx", "dest": "System/Scripts/Widgets/dc-eveningReflection.jsx" }
+      ],
+      "activities": [
+        { "id": "gratitude", "name": "Gratitude", "type": "count", "field": "gratitude", "icon": "❤️", "color": "#FD79A8" }
+      ]
+    },
+    {
+      "id": "water-tracker",
+      "name": "Water Tracker",
+      "version": "1.0.0",
+      "description": "Track daily water intake with visual progress",
+      "icon": "💧",
+      "author": "BigSpoon33",
+      "source": "Active AF",
+      "widget": "dc-waterTracker",
+      "files": [
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-waterTracker.jsx", "dest": "System/Scripts/Widgets/dc-waterTracker.jsx" }
+      ],
+      "activities": []
+    },
+    {
+      "id": "random-quote",
+      "name": "Random Quote",
+      "version": "1.0.0",
+      "description": "Display random inspirational quotes from your vault",
+      "icon": "💡",
+      "author": "BigSpoon33",
+      "source": "Active AF",
+      "widget": "dc-randomQuote",
+      "files": [
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-randomQuote.jsx", "dest": "System/Scripts/Widgets/dc-randomQuote.jsx" }
+      ],
+      "activities": []
+    },
+    {
+      "id": "journal-nav",
+      "name": "Journal Navigation",
+      "version": "1.0.0",
+      "description": "Navigate between daily journal entries",
+      "icon": "📖",
+      "author": "BigSpoon33",
+      "source": "Active AF",
+      "widget": "dc-journalNav",
+      "files": [
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-journalNav.jsx", "dest": "System/Scripts/Widgets/dc-journalNav.jsx" }
+      ],
+      "activities": []
+    },
+    {
+      "id": "meal-planner",
+      "name": "Meal Planner",
+      "version": "1.0.0",
+      "description": "Plan weekly meals with recipe integration",
+      "icon": "🍽️",
+      "author": "BigSpoon33",
+      "source": "Kitchen AF",
+      "widget": "dc-mealPlanner",
+      "files": [
+        { "src": "capsules/kitchen-af/System/Scripts/Widgets/dc-mealPlanner.jsx", "dest": "System/Scripts/Widgets/dc-mealPlanner.jsx" },
+        { "src": "capsules/kitchen-af/System/Scripts/Widgets/dc-todayMenu.jsx", "dest": "System/Scripts/Widgets/dc-todayMenu.jsx" }
+      ],
+      "activities": [
+        { "id": "calories", "name": "Calories", "type": "value", "field": "consumed-calories", "goal": 2000, "unit": "kcal", "icon": "🔥", "color": "#FF7675" },
+        { "id": "protein", "name": "Protein", "type": "value", "field": "consumed-protein", "goal": 150, "unit": "g", "icon": "🥩", "color": "#E17055" }
+      ]
+    },
+    {
+      "id": "recipe-editor",
+      "name": "Recipe Editor",
+      "version": "1.0.0",
+      "description": "Create and edit recipes with nutrition info",
+      "icon": "📝",
+      "author": "BigSpoon33",
+      "source": "Kitchen AF",
+      "widget": "dc-recipeEditor",
+      "files": [
+        { "src": "capsules/kitchen-af/System/Scripts/Widgets/dc-recipeEditor.jsx", "dest": "System/Scripts/Widgets/dc-recipeEditor.jsx" }
+      ],
+      "activities": []
+    },
+    {
+      "id": "shopping-list",
+      "name": "Shopping List",
+      "version": "1.0.0",
+      "description": "Generate shopping lists from meal plans",
+      "icon": "🛒",
+      "author": "BigSpoon33",
+      "source": "Kitchen AF",
+      "widget": "dc-shoppingList",
+      "files": [
+        { "src": "capsules/kitchen-af/System/Scripts/Widgets/dc-shoppingList.jsx", "dest": "System/Scripts/Widgets/dc-shoppingList.jsx" }
+      ],
+      "activities": []
+    },
+    {
+      "id": "workout-builder",
+      "name": "Workout Builder",
+      "version": "1.0.0",
+      "description": "Build and customize workout routines",
+      "icon": "💪",
+      "author": "BigSpoon33",
+      "source": "Workout AF",
+      "widget": "dc-workoutBuilder",
+      "files": [
+        { "src": "capsules/workout-af/System/Scripts/Widgets/dc-workoutBuilder.jsx", "dest": "System/Scripts/Widgets/dc-workoutBuilder.jsx" },
+        { "src": "capsules/workout-af/System/Scripts/Widgets/dc-workoutToday.jsx", "dest": "System/Scripts/Widgets/dc-workoutToday.jsx" }
+      ],
+      "activities": [
+        { "id": "exercise", "name": "Exercise", "type": "value", "field": "exercise-minutes", "goal": 30, "unit": "min", "icon": "🏋️", "color": "#E17055" }
+      ]
+    },
+    {
+      "id": "weekly-workout",
+      "name": "Weekly Workout",
+      "version": "1.0.0",
+      "description": "View and plan your weekly workout schedule",
+      "icon": "📅",
+      "author": "BigSpoon33",
+      "source": "Workout AF",
+      "widget": "dc-weeklyWorkout",
+      "files": [
+        { "src": "capsules/workout-af/System/Scripts/Widgets/dc-weeklyWorkout.jsx", "dest": "System/Scripts/Widgets/dc-weeklyWorkout.jsx" }
+      ],
+      "activities": []
+    },
+    {
+      "id": "muscle-map",
+      "name": "Muscle Map",
+      "version": "1.0.0",
+      "description": "Visual muscle group targeting and tracking",
+      "icon": "🦾",
+      "author": "BigSpoon33",
+      "source": "Workout AF",
+      "widget": "dc-muscleMap",
+      "files": [
+        { "src": "capsules/workout-af/System/Scripts/Widgets/dc-muscleMap.jsx", "dest": "System/Scripts/Widgets/dc-muscleMap.jsx" }
+      ],
+      "activities": []
+    },
+    {
+      "id": "academic-dashboard",
+      "name": "Academic Dashboard",
+      "version": "1.0.0",
+      "description": "Track courses, assignments, and study progress",
+      "icon": "🎓",
+      "author": "BigSpoon33",
+      "source": "Academic AF",
+      "widget": "dc-academicDashboard",
+      "files": [
+        { "src": "capsules/academic-af/System/Scripts/Widgets/dc-academicDashboard.jsx", "dest": "System/Scripts/Widgets/dc-academicDashboard.jsx" },
+        { "src": "capsules/academic-af/System/Scripts/Widgets/dc-classView.jsx", "dest": "System/Scripts/Widgets/dc-classView.jsx" },
+        { "src": "capsules/academic-af/System/Scripts/Widgets/dc-courseworkView.jsx", "dest": "System/Scripts/Widgets/dc-courseworkView.jsx" }
+      ],
+      "activities": [
+        { "id": "study", "name": "Study", "type": "value", "field": "study-hours", "goal": 4, "unit": "hrs", "icon": "📚", "color": "#9B59B6" }
+      ]
+    },
+    {
+      "id": "daily-settings",
+      "name": "Daily Settings",
+      "version": "1.0.0",
+      "description": "Central settings widget with capsule management",
+      "icon": "⚙️",
+      "author": "BigSpoon33",
+      "source": "Daily AF",
+      "widget": "dc-settings",
+      "files": [
+        { "src": "capsules/active-af/System/Scripts/Widgets/dc-settings.jsx", "dest": "System/Scripts/Widgets/dc-settings.jsx" },
+        { "src": "capsules/active-af/System/Scripts/Core/dc-dateContext.jsx", "dest": "System/Scripts/Core/dc-dateContext.jsx" }
+      ],
+      "activities": []
+    }
+  ]
+}
