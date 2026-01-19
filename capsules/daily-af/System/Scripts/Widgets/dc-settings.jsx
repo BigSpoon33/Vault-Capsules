@@ -346,18 +346,22 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                 }
             };
 
-            // Only add to installed-modules (top bar) if capsule has a widget defined
-            // Vault-level capsules without widgets are dashboards/planners, not top-bar items
-            let newModules = installedModules;
-            if (capsule.widget) {
-                const newModule = {
-                    id: capsule.id,
-                    label: capsule.name,
-                    icon: capsule.icon,
-                    widget: capsule.widget,
-                    description: capsule.description
-                };
-                newModules = [...installedModules.filter(m => m.id !== capsule.id), newModule];
+            // Add widgets from capsule's widgets array to installed-modules (top bar)
+            // This allows vault capsules to define multiple top-bar widgets
+            let newModules = [...installedModules];
+            if (capsule.widgets && capsule.widgets.length > 0) {
+                for (const widget of capsule.widgets) {
+                    // Skip if already exists (don't duplicate)
+                    if (!newModules.some(m => m.id === widget.id)) {
+                        newModules.push({
+                            id: widget.id,
+                            label: widget.label,
+                            icon: widget.icon,
+                            widget: widget.widget,
+                            description: widget.description
+                        });
+                    }
+                }
             }
 
             // Compute activities from all installed capsules
@@ -398,20 +402,35 @@ function CapsulesSection({ settings, onUpdate, theme }) {
             const installed = installedCapsules[capsule.id];
             if (!installed) throw new Error("Capsule not found in installed list");
 
-            // Delete all files
+            // Get core files from manifest that should NEVER be deleted
+            const coreFiles = manifest?.coreFiles || [];
+
+            // Delete capsule files, but SKIP core files
+            let deletedCount = 0;
+            let skippedCount = 0;
             for (const filePath of installed.files) {
+                // Skip core/protected files
+                if (coreFiles.includes(filePath)) {
+                    console.log(`[Capsules] Skipping core file: ${filePath}`);
+                    skippedCount++;
+                    continue;
+                }
+
                 const file = app.vault.getAbstractFileByPath(filePath);
                 if (file) {
                     await app.vault.delete(file);
+                    deletedCount++;
                 }
             }
+            console.log(`[Capsules] Deleted ${deletedCount} files, skipped ${skippedCount} core files`);
 
             // Remove from installed-capsules
             const newInstalledCapsules = { ...installedCapsules };
             delete newInstalledCapsules[capsule.id];
 
-            // Remove from installed-modules
-            const newModules = installedModules.filter(m => m.id !== capsule.id);
+            // Remove widgets that came from this capsule from installed-modules
+            const capsuleWidgetIds = (capsule.widgets || []).map(w => w.id);
+            const newModules = installedModules.filter(m => !capsuleWidgetIds.includes(m.id));
 
             // Recompute activities
             const allInstalledIds = Object.keys(newInstalledCapsules);

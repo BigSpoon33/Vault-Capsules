@@ -8,7 +8,7 @@
       "name": "Active AF",
       "version": "1.0.0",
       "description": "Activity tracking, meditation, sleep, water intake, journaling, and daily wellness tools",
-      "icon": "\ud83c\udfaf",
+      "icon": "🎯",
       "source": "Active AF",
       "activities": [
         {
@@ -18,7 +18,7 @@
           "field": "sleep-hours",
           "goal": 8,
           "unit": "hrs",
-          "icon": "\ud83c\udf19",
+          "icon": "🌙",
           "color": "#00B894"
         },
         {
@@ -27,7 +27,7 @@
           "type": "value",
           "field": "mood",
           "goal": 5,
-          "icon": "\ud83d\ude0a",
+          "icon": "😊",
           "color": "#A29BFE"
         },
         {
@@ -36,7 +36,7 @@
           "type": "value",
           "field": "energy",
           "goal": 5,
-          "icon": "\u26a1",
+          "icon": "⚡",
           "color": "#FDCB6E"
         },
         {
@@ -46,7 +46,7 @@
           "field": "water-ml",
           "goal": 3000,
           "unit": "ml",
-          "icon": "\ud83d\udca7",
+          "icon": "💧",
           "color": "#0984E3"
         },
         {
@@ -56,7 +56,7 @@
           "field": "meditation-minutes",
           "goal": 15,
           "unit": "min",
-          "icon": "\ud83e\uddd8",
+          "icon": "🧘",
           "color": "#81ECEC"
         },
         {
@@ -64,7 +64,7 @@
           "name": "Gratitude",
           "type": "count",
           "field": "gratitude",
-          "icon": "\u2764\ufe0f",
+          "icon": "❤️",
           "color": "#FD79A8"
         }
       ],
@@ -306,6 +306,43 @@
           "src": "capsules/active-af/System/Themes/style-settings-whiteCrane.json",
           "dest": "System/Themes/style-settings-whiteCrane.json"
         }
+      ],
+      "widgets": [
+        {
+          "id": "morning",
+          "label": "Morning",
+          "icon": "🌅",
+          "widget": "dc-sleepTracker",
+          "description": "Sleep tracking & daily plan viewer"
+        },
+        {
+          "id": "activities",
+          "label": "Activities",
+          "icon": "📊",
+          "widget": "dc-activityLogger",
+          "description": "Log and track daily activities"
+        },
+        {
+          "id": "meditation",
+          "label": "Meditation",
+          "icon": "🧘",
+          "widget": "dc-meditationTimer",
+          "description": "Guided meditation timer"
+        },
+        {
+          "id": "evening",
+          "label": "Evening",
+          "icon": "🌙",
+          "widget": "dc-eveningReflection",
+          "description": "Evening reflection & gratitude"
+        },
+        {
+          "id": "tracker",
+          "label": "Trends",
+          "icon": "📉",
+          "widget": "dc-activityTracker",
+          "description": "Heatmaps & trend graphs"
+        }
       ]
     },
     {
@@ -313,7 +350,7 @@
       "name": "Daily AF",
       "version": "1.0.0",
       "description": "Core daily note system with wrapper, settings, and theme management",
-      "icon": "\ud83d\udcc5",
+      "icon": "📅",
       "source": "Daily AF",
       "activities": [],
       "author": "BigSpoon33",
@@ -486,6 +523,15 @@
           "src": "capsules/daily-af/System/Themes/style-settings-whiteCrane.json",
           "dest": "System/Themes/style-settings-whiteCrane.json"
         }
+      ],
+      "widgets": [
+        {
+          "id": "journal",
+          "label": "Journal",
+          "icon": "📝",
+          "widget": null,
+          "description": "Daily journaling with auto-save"
+        }
       ]
     },
     {
@@ -493,7 +539,7 @@
       "name": "Academic AF",
       "version": "1.0.0",
       "description": "Academic tracking with courses, assignments, exams, and study progress",
-      "icon": "\ud83c\udf93",
+      "icon": "🎓",
       "source": "Academic AF",
       "activities": [
         {
@@ -503,7 +549,7 @@
           "field": "study-hours",
           "goal": 4,
           "unit": "hrs",
-          "icon": "\ud83d\udcda",
+          "icon": "📚",
           "color": "#9B59B6"
         }
       ],
@@ -781,14 +827,15 @@
           "src": "capsules/academic-af/System/Themes/style-settings-whiteCrane.json",
           "dest": "System/Themes/style-settings-whiteCrane.json"
         }
-      ]
+      ],
+      "widgets": []
     },
     {
       "id": "workout-af",
       "name": "Workout AF",
       "version": "1.0.0",
       "description": "Workout planning, exercise tracking, muscle mapping, and fitness routines",
-      "icon": "\ud83d\udcaa",
+      "icon": "💪",
       "source": "Workout AF",
       "activities": [
         {
@@ -798,16 +845,12 @@
           "field": "exercise-minutes",
           "goal": 30,
           "unit": "min",
-          "icon": "\ud83c\udfcb\ufe0f",
+          "icon": "🏋️",
           "color": "#E17055"
         }
       ],
       "author": "BigSpoon33",
       "files": [
-        {
-          "src": "capsules/workout-af/System/Assets/Anatomy/.~lock.muscle_paths.txt#",
-          "dest": "System/Assets/Anatomy/.~lock.muscle_paths.txt#"
-        },
         {
           "src": "capsules/workout-af/System/Assets/Anatomy/INKSCAPE_GUIDE.md",
           "dest": "System/Assets/Anatomy/INKSCAPE_GUIDE.md"
@@ -1056,6 +1099,15 @@
           "src": "capsules/workout-af/System/Themes/style-settings-whiteCrane.json",
           "dest": "System/Themes/style-settings-whiteCrane.json"
         }
+      ],
+      "widgets": [
+        {
+          "id": "movement",
+          "label": "Movement",
+          "icon": "💪",
+          "widget": "dc-workoutToday",
+          "description": "Daily workout tracking"
+        }
       ]
     },
     {
@@ -1063,7 +1115,7 @@
       "name": "Kitchen AF",
       "version": "1.0.0",
       "description": "Meal planning, recipe management, shopping lists, and nutrition tracking",
-      "icon": "\ud83c\udf7d\ufe0f",
+      "icon": "🍽️",
       "source": "Kitchen AF",
       "activities": [
         {
@@ -1073,7 +1125,7 @@
           "field": "consumed-calories",
           "goal": 2000,
           "unit": "kcal",
-          "icon": "\ud83d\udd25",
+          "icon": "🔥",
           "color": "#FF7675"
         },
         {
@@ -1083,7 +1135,7 @@
           "field": "consumed-protein",
           "goal": 150,
           "unit": "g",
-          "icon": "\ud83e\udd69",
+          "icon": "🥩",
           "color": "#E17055"
         }
       ],
@@ -1285,7 +1337,46 @@
           "src": "capsules/kitchen-af/System/Themes/style-settings-whiteCrane.json",
           "dest": "System/Themes/style-settings-whiteCrane.json"
         }
+      ],
+      "widgets": [
+        {
+          "id": "meals",
+          "label": "Meals",
+          "icon": "🍽️",
+          "widget": "dc-todayMenu",
+          "description": "Meal planning & nutrition tracking"
+        }
       ]
     }
+  ],
+  "coreFiles": [
+    "System/Settings.md",
+    "System/Scripts/Widgets/dc-settings.jsx",
+    "System/Scripts/Wrappers/dc-dailyWrapper.jsx",
+    "System/Scripts/Core/dc-themeProvider.jsx",
+    "System/Scripts/Core/dc-dateContext.jsx",
+    "System/Scripts/Core/dc-gradientUtils.jsx",
+    "System/Scripts/Components/dc-gloButton.jsx",
+    "System/Scripts/Components/dc-gloCard.jsx",
+    "System/Scripts/Components/dc-gloToggle.jsx",
+    "System/Scripts/Components/dc-gloBadge.jsx",
+    "System/Scripts/Components/dc-gloBar.jsx",
+    "System/Scripts/Components/dc-gloDial.jsx",
+    "System/Scripts/Components/dc-gloInput.jsx",
+    "System/Scripts/Components/dc-gloSelect.jsx",
+    "System/Scripts/Components/dc-gloTabs.jsx",
+    "System/Scripts/Components/dc-calendarPicker.jsx",
+    "System/Scripts/Components/dc-colorPicker.jsx",
+    "System/Scripts/Components/dc-backgroundPicker.jsx",
+    "System/Scripts/Components/dc-gradientBuilder.jsx",
+    "System/Scripts/Components/dc-stickyPreview.jsx",
+    "System/Scripts/Components/dc-themePreviewContent.jsx",
+    "System/Scripts/Components/dc-meditationAnimations.jsx",
+    "System/Scripts/Widgets/dc-themeDashboard.jsx",
+    "System/Scripts/Widgets/dc-themeEditor.jsx",
+    "System/Scripts/Widgets/dc-themeStudio.jsx",
+    "System/Dashboards/Daily Wrapper.md",
+    "System/Themes/_themeTemplate.md",
+    "System/Themes/default.md"
   ]
 }
