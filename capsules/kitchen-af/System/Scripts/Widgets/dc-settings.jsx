@@ -27,125 +27,10 @@ const { GloBadge } = await dc.require(
 const SETTINGS_PATH = "System/Settings.md";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CAPSULE CATALOG - Available capsules with their associated activities
+// REMOTE CAPSULE STORE - Network-based capsule management
 // ─────────────────────────────────────────────────────────────────────────────
-const CAPSULE_CATALOG = [
-    // Core (Built-in)
-    {
-        id: "journal",
-        label: "Journal",
-        icon: "📝",
-        widget: null,
-        source: "Built-in",
-        description: "Daily journaling with auto-save",
-        activities: [
-            { id: "journal", name: "Journal", type: "count", field: "journal", icon: "📖", color: "#2089FF" }
-        ]
-    },
-
-    // From Active AF
-    {
-        id: "morning",
-        label: "Morning",
-        icon: "🌅",
-        widget: "dc-sleepTracker",
-        source: "Active AF",
-        description: "Sleep tracking & daily plan viewer",
-        activities: [
-            { id: "sleep", name: "Sleep", type: "value", field: "sleep-hours", goal: 8, unit: "hrs", icon: "🌙", color: "#00B894" }
-        ]
-    },
-    {
-        id: "activities",
-        label: "Activities",
-        icon: "📊",
-        widget: "dc-activityLogger",
-        source: "Active AF",
-        description: "Log and track daily activities",
-        activities: [
-            { id: "mood", name: "Mood", type: "value", field: "mood", goal: 5, icon: "😊", color: "#A29BFE" },
-            { id: "energy", name: "Energy", type: "value", field: "energy", goal: 5, icon: "⚡", color: "#FDCB6E" },
-            { id: "water", name: "Water", type: "value", field: "water-ml", goal: 3000, unit: "ml", icon: "💧", color: "#0984E3" }
-        ]
-    },
-    {
-        id: "meditation",
-        label: "Meditation",
-        icon: "🧘",
-        widget: "dc-meditationTimer",
-        source: "Active AF",
-        description: "Guided meditation timer",
-        activities: [
-            { id: "meditation", name: "Meditation", type: "value", field: "meditation-minutes", goal: 15, unit: "min", icon: "🧘", color: "#81ECEC" }
-        ]
-    },
-    {
-        id: "evening",
-        label: "Evening",
-        icon: "🌙",
-        widget: "dc-eveningReflection",
-        source: "Active AF",
-        description: "Evening reflection & gratitude",
-        activities: [
-            { id: "gratitude", name: "Gratitude", type: "count", field: "gratitude", icon: "❤️", color: "#FD79A8" }
-        ]
-    },
-    {
-        id: "tracker",
-        label: "Trends",
-        icon: "📉",
-        widget: "dc-activityTracker",
-        source: "Active AF",
-        description: "Heatmaps & trend graphs",
-        activities: [] // No activities, just visualization
-    },
-
-    // From Kitchen AF
-    {
-        id: "meals",
-        label: "Meals",
-        icon: "🍽️",
-        widget: "dc-todayMenu",
-        source: "Kitchen AF",
-        description: "Meal planning & nutrition tracking",
-        activities: [
-            { id: "calories", name: "Calories", type: "value", field: "consumed-calories", goal: 2000, unit: "kcal", icon: "🔥", color: "#FF7675" },
-            { id: "protein", name: "Protein", type: "value", field: "consumed-protein", goal: 150, unit: "g", icon: "🥩", color: "#E17055" },
-            { id: "carbs", name: "Carbs", type: "value", field: "consumed-carbs", goal: 200, unit: "g", icon: "🌾", color: "#FDCB6E" },
-            { id: "fat", name: "Fat", type: "value", field: "consumed-fat", goal: 65, unit: "g", icon: "🫒", color: "#74B9FF" }
-        ]
-    },
-
-    // From Workout AF
-    {
-        id: "movement",
-        label: "Movement",
-        icon: "💪",
-        widget: "dc-workoutToday",
-        source: "Workout AF",
-        description: "Daily workout tracking",
-        activities: [
-            { id: "exercise", name: "Exercise", type: "value", field: "exercise-minutes", goal: 30, unit: "min", icon: "🏋️", color: "#E17055" },
-            { id: "workout-days", name: "Workout Days", type: "value", field: "workout-days", goal: 4, unit: "days/wk", icon: "📅", color: "#00CEC9" }
-        ]
-    },
-
-    // From Academic AF (dashboard accessed via bottom bar, not top bar)
-    {
-        id: "academic",
-        label: "Academic",
-        icon: "🎓",
-        widget: null,
-        source: "Academic AF",
-        description: "Study tracking (dashboard via bottom bar)",
-        dashboardOnly: true,
-        dashboardPath: "System/Dashboards/Academic Dashboard.md",
-        activities: [
-            { id: "study", name: "Study", type: "value", field: "study-hours", goal: 4, unit: "hrs", icon: "📚", color: "#9B59B6" },
-            { id: "learning", name: "Learning", type: "boolean", field: "learning", icon: "🎓", color: "#3498DB" }
-        ]
-    },
-];
+const REMOTE_MANIFEST_URL = "https://raw.githubusercontent.com/BigSpoon33/Vault-Capsules/main/capsule-manifest.json";
+const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/BigSpoon33/Vault-Capsules/main";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // HELPER: Load/Save Settings
@@ -183,14 +68,14 @@ async function saveSettings(updates) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// HELPER: Sync activities based on installed capsules
+// HELPER: Sync activities based on installed capsules (from manifest)
 // ─────────────────────────────────────────────────────────────────────────────
-function computeActivitiesForCapsules(installedCapsuleIds) {
+function computeActivitiesForCapsules(installedCapsuleIds, manifestCapsules = []) {
     const activities = [];
     const seenIds = new Set();
 
     for (const capsuleId of installedCapsuleIds) {
-        const capsule = CAPSULE_CATALOG.find(c => c.id === capsuleId);
+        const capsule = manifestCapsules.find(c => c.id === capsuleId);
         if (capsule && capsule.activities) {
             for (const activity of capsule.activities) {
                 if (!seenIds.has(activity.id)) {
@@ -270,8 +155,9 @@ function OrderSection({ settings, onUpdate, theme }) {
         new Notice("Tab order saved!");
     };
 
-    const getCapsuleInfo = (moduleId) => {
-        return CAPSULE_CATALOG.find(c => c.id === moduleId) || { description: "Custom capsule" };
+    const getCapsuleInfo = (module) => {
+        // Module now contains its own description from the manifest
+        return { description: module.description || "Custom capsule" };
     };
 
     return (
@@ -290,7 +176,7 @@ function OrderSection({ settings, onUpdate, theme }) {
             ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {modules.map((module, index) => {
-                        const info = getCapsuleInfo(module.id);
+                        const info = getCapsuleInfo(module);
                         return (
                             <div
                                 key={module.id}
@@ -354,7 +240,8 @@ function OrderSection({ settings, onUpdate, theme }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SECTION: Capsules (add/remove with auto-activity management)
+// SECTION: Capsules (Remote capsule management - clone/pull/delete)
+// Fetches capsule catalog from GitHub, manages installation and activities
 // ─────────────────────────────────────────────────────────────────────────────
 function CapsulesSection({ settings, onUpdate, theme }) {
     const primary = theme?.["color-primary"] || "#7c3aed";
@@ -364,102 +251,257 @@ function CapsulesSection({ settings, onUpdate, theme }) {
     const warning = theme?.["color-warning"] || "#f59e0b";
     const errorColor = theme?.["color-red"] || "#ef4444";
 
-    // Top bar modules (for Daily Wrapper tabs)
-    const installedModules = settings?.["installed-modules"] || [];
-    const installedModuleIds = installedModules.map(m => m.id);
-
-    // Dashboard-only capsules (appear in bottom bar, not top bar)
-    const installedDashboards = settings?.["installed-dashboards"] || [];
-
+    const [manifest, setManifest] = dc.useState(null);
+    const [loadingManifest, setLoadingManifest] = dc.useState(true);
+    const [manifestError, setManifestError] = dc.useState(null);
+    const [operationStatus, setOperationStatus] = dc.useState({});
     const [filter, setFilter] = dc.useState("all");
 
-    const sources = ["all", "Built-in", "Active AF", "Kitchen AF", "Workout AF", "Academic AF"];
+    // Track installed capsules from settings
+    const installedCapsules = settings?.["installed-capsules"] || {};
+    const installedModules = settings?.["installed-modules"] || [];
 
-    const filteredCapsules = filter === "all"
-        ? CAPSULE_CATALOG
-        : CAPSULE_CATALOG.filter(c => c.source === filter);
+    // Fetch manifest on mount
+    dc.useEffect(() => {
+        fetchManifest();
+    }, []);
 
-    const checkWidgetExists = (widgetName) => {
-        if (!widgetName) return true;
-        const path = `System/Scripts/Widgets/${widgetName}.jsx`;
-        return !!app.vault.getAbstractFileByPath(path);
+    const fetchManifest = async () => {
+        setLoadingManifest(true);
+        setManifestError(null);
+        try {
+            const fetchUrl = REMOTE_MANIFEST_URL + '?t=' + Date.now();
+            console.log('[Capsules] Fetching manifest:', fetchUrl);
+            const response = await fetch(fetchUrl);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            setManifest(data);
+        } catch (err) {
+            setManifestError(err.message);
+        } finally {
+            setLoadingManifest(false);
+        }
     };
 
-    const checkDashboardExists = (dashboardPath) => {
-        if (!dashboardPath) return false;
-        return !!app.vault.getAbstractFileByPath(dashboardPath);
-    };
+    // Get unique sources for filter buttons
+    const sources = dc.useMemo(() => {
+        if (!manifest?.capsules) return ["all"];
+        const uniqueSources = [...new Set(manifest.capsules.map(c => c.source).filter(Boolean))];
+        return ["all", ...uniqueSources];
+    }, [manifest]);
 
-    const isInstalled = (capsuleId) => {
-        return installedModuleIds.includes(capsuleId) || installedDashboards.includes(capsuleId);
-    };
+    // Filter capsules by source
+    const filteredCapsules = dc.useMemo(() => {
+        if (!manifest?.capsules) return [];
+        if (filter === "all") return manifest.capsules;
+        return manifest.capsules.filter(c => c.source === filter);
+    }, [manifest, filter]);
 
-    // Get all installed capsule IDs for activity computation
-    const getAllInstalledIds = () => {
-        return [...installedModuleIds, ...installedDashboards];
-    };
+    // Clone (install) a capsule
+    const cloneCapsule = async (capsule) => {
+        setOperationStatus(prev => ({ ...prev, [capsule.id]: { status: "cloning", message: "Downloading..." } }));
 
-    const handleAddCapsule = async (capsule) => {
-        const updates = {};
+        try {
+            const installedFiles = [];
 
-        if (capsule.dashboardOnly) {
-            // Dashboard-only: add to installed-dashboards, NOT installed-modules
-            const newDashboards = [...installedDashboards, capsule.id];
-            updates["installed-dashboards"] = newDashboards;
+            for (const file of capsule.files) {
+                const fileUrl = `${GITHUB_RAW_BASE}/${file.src}?t=${Date.now()}`;
+                console.log('[Capsules] Fetching file:', fileUrl);
+                setOperationStatus(prev => ({
+                    ...prev,
+                    [capsule.id]: { status: "cloning", message: `Fetching ${file.src.split('/').pop()}...` }
+                }));
 
-            // Compute activities from all installed capsules
-            const allIds = [...installedModuleIds, ...newDashboards];
-            updates["activities"] = computeActivitiesForCapsules(allIds);
-        } else {
-            // Regular module: add to installed-modules
-            const newModule = {
-                id: capsule.id,
-                label: capsule.label,
-                icon: capsule.icon,
-                widget: capsule.widget,
+                const response = await fetch(fileUrl);
+                if (!response.ok) throw new Error(`Failed to fetch ${file.src}: HTTP ${response.status}`);
+                const content = await response.text();
+
+                // Ensure directory exists
+                const destDir = file.dest.split('/').slice(0, -1).join('/');
+                if (destDir) {
+                    const dirExists = app.vault.getAbstractFileByPath(destDir);
+                    if (!dirExists) {
+                        await app.vault.createFolder(destDir);
+                    }
+                }
+
+                // Write or update file
+                const existingFile = app.vault.getAbstractFileByPath(file.dest);
+                if (existingFile) {
+                    await app.vault.modify(existingFile, content);
+                } else {
+                    await app.vault.create(file.dest, content);
+                }
+
+                installedFiles.push(file.dest);
+            }
+
+            // Update installed-capsules tracking
+            const newInstalledCapsules = {
+                ...installedCapsules,
+                [capsule.id]: {
+                    version: capsule.version,
+                    installedAt: new Date().toISOString(),
+                    files: installedFiles
+                }
             };
-            const newModules = [...installedModules, newModule];
-            updates["installed-modules"] = newModules;
+
+            // Only add to installed-modules (top bar) if capsule has a widget defined
+            // Vault-level capsules without widgets are dashboards/planners, not top-bar items
+            let newModules = installedModules;
+            if (capsule.widget) {
+                const newModule = {
+                    id: capsule.id,
+                    label: capsule.name,
+                    icon: capsule.icon,
+                    widget: capsule.widget,
+                    description: capsule.description
+                };
+                newModules = [...installedModules.filter(m => m.id !== capsule.id), newModule];
+            }
 
             // Compute activities from all installed capsules
-            const allIds = [...newModules.map(m => m.id), ...installedDashboards];
-            updates["activities"] = computeActivitiesForCapsules(allIds);
-        }
+            const allInstalledIds = Object.keys(newInstalledCapsules);
+            const activities = computeActivitiesForCapsules(allInstalledIds, manifest?.capsules || []);
 
-        await onUpdate(updates);
-        new Notice(`Added ${capsule.label} capsule`);
+            await onUpdate({
+                "installed-capsules": newInstalledCapsules,
+                "installed-modules": newModules,
+                "activities": activities
+            });
+
+            setOperationStatus(prev => ({
+                ...prev,
+                [capsule.id]: { status: "success", message: `Installed v${capsule.version}` }
+            }));
+            new Notice(`Installed ${capsule.name} v${capsule.version}`);
+        } catch (err) {
+            setOperationStatus(prev => ({
+                ...prev,
+                [capsule.id]: { status: "error", message: err.message }
+            }));
+            new Notice(`Failed to install ${capsule.name}: ${err.message}`);
+        }
     };
 
-    const handleRemoveCapsule = async (capsuleId) => {
-        const capsule = CAPSULE_CATALOG.find(c => c.id === capsuleId);
-        const updates = {};
+    // Pull (update) a capsule
+    const pullCapsule = async (capsule) => {
+        setOperationStatus(prev => ({ ...prev, [capsule.id]: { status: "pulling", message: "Updating..." } }));
+        await cloneCapsule(capsule);
+    };
 
-        if (capsule?.dashboardOnly) {
-            // Remove from installed-dashboards
-            const newDashboards = installedDashboards.filter(id => id !== capsuleId);
-            updates["installed-dashboards"] = newDashboards;
+    // Delete a capsule
+    const deleteCapsule = async (capsule) => {
+        setOperationStatus(prev => ({ ...prev, [capsule.id]: { status: "deleting", message: "Removing..." } }));
 
-            // Compute activities
-            const allIds = [...installedModuleIds, ...newDashboards];
-            updates["activities"] = computeActivitiesForCapsules(allIds);
-        } else {
+        try {
+            const installed = installedCapsules[capsule.id];
+            if (!installed) throw new Error("Capsule not found in installed list");
+
+            // Delete all files
+            for (const filePath of installed.files) {
+                const file = app.vault.getAbstractFileByPath(filePath);
+                if (file) {
+                    await app.vault.delete(file);
+                }
+            }
+
+            // Remove from installed-capsules
+            const newInstalledCapsules = { ...installedCapsules };
+            delete newInstalledCapsules[capsule.id];
+
             // Remove from installed-modules
-            const newModules = installedModules.filter(m => m.id !== capsuleId);
-            updates["installed-modules"] = newModules;
+            const newModules = installedModules.filter(m => m.id !== capsule.id);
 
-            // Compute activities
-            const allIds = [...newModules.map(m => m.id), ...installedDashboards];
-            updates["activities"] = computeActivitiesForCapsules(allIds);
+            // Recompute activities
+            const allInstalledIds = Object.keys(newInstalledCapsules);
+            const activities = computeActivitiesForCapsules(allInstalledIds, manifest?.capsules || []);
+
+            await onUpdate({
+                "installed-capsules": newInstalledCapsules,
+                "installed-modules": newModules,
+                "activities": activities
+            });
+
+            setOperationStatus(prev => ({
+                ...prev,
+                [capsule.id]: { status: "deleted", message: "Removed" }
+            }));
+            new Notice(`Removed ${capsule.name}`);
+        } catch (err) {
+            setOperationStatus(prev => ({
+                ...prev,
+                [capsule.id]: { status: "error", message: err.message }
+            }));
+            new Notice(`Failed to remove ${capsule.name}: ${err.message}`);
+        }
+    };
+
+    const getStatusBadge = (capsuleId, capsule) => {
+        const op = operationStatus[capsuleId];
+        const installed = installedCapsules[capsuleId];
+
+        if (op?.status === "cloning" || op?.status === "pulling") {
+            return <GloBadge label={`⏳ ${op.message}`} color={warning} size="small" />;
+        }
+        if (op?.status === "deleting") {
+            return <GloBadge label="🗑️ Removing..." color={warning} size="small" />;
+        }
+        if (op?.status === "error") {
+            return <GloBadge label={`❌ ${op.message}`} color={errorColor} size="small" />;
+        }
+        if (op?.status === "success") {
+            return <GloBadge label={`✓ ${op.message}`} color={success} size="small" />;
+        }
+        if (op?.status === "deleted") {
+            return <GloBadge label="🗑️ Removed" color={textMuted} size="small" />;
         }
 
-        await onUpdate(updates);
-        new Notice(`Removed ${capsule?.label || capsuleId} capsule`);
+        if (installed) {
+            const hasUpdate = capsule && installed.version !== capsule.version;
+            if (hasUpdate) {
+                return <GloBadge label={`⬆️ Update: v${capsule.version}`} color={warning} size="small" />;
+            }
+            return <GloBadge label={`✓ v${installed.version}`} color={success} size="small" />;
+        }
+
+        return null;
     };
+
+    if (loadingManifest) {
+        return (
+            <div style={{ padding: 40, textAlign: "center", color: textMuted }}>
+                <div style={{ fontSize: 32, marginBottom: 12 }}>📡</div>
+                Fetching capsule catalog...
+            </div>
+        );
+    }
+
+    if (manifestError && !manifest) {
+        return (
+            <div style={{ padding: 40, textAlign: "center", color: textMuted }}>
+                <div style={{ fontSize: 32, marginBottom: 12 }}>⚠️</div>
+                <div style={{ color: errorColor, marginBottom: 12 }}>Failed to load capsule catalog</div>
+                <div style={{ fontSize: 12, marginBottom: 16 }}>{manifestError}</div>
+                <GloButton label="Retry" icon="🔄" variant="primary" onClick={fetchManifest} />
+            </div>
+        );
+    }
 
     return (
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div style={{ fontSize: 13, color: textMuted }}>
-                Add or remove capsules. Activities are automatically synced based on installed capsules.
+            {/* Header with refresh */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div style={{ fontSize: 13, color: textMuted }}>
+                    {`${manifest?.capsules?.length || 0} capsules available • ${Object.keys(installedCapsules).length} installed`}
+                </div>
+                <GloButton
+                    icon="🔄"
+                    label="Refresh"
+                    size="small"
+                    variant="ghost"
+                    onClick={fetchManifest}
+                />
             </div>
 
             {/* Filter buttons */}
@@ -476,13 +518,11 @@ function CapsulesSection({ settings, onUpdate, theme }) {
             </div>
 
             {/* Capsule grid */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 12 }}>
                 {filteredCapsules.map(capsule => {
-                    const installed = isInstalled(capsule.id);
-                    const isDashboardOnly = capsule.dashboardOnly === true;
-                    const widgetExists = isDashboardOnly ? true : checkWidgetExists(capsule.widget);
-                    const dashboardExists = isDashboardOnly ? checkDashboardExists(capsule.dashboardPath) : true;
-                    const canInstall = isDashboardOnly ? dashboardExists : widgetExists;
+                    const installed = installedCapsules[capsule.id];
+                    const hasUpdate = installed && installed.version !== capsule.version;
+                    const isOperating = ["cloning", "pulling", "deleting"].includes(operationStatus[capsule.id]?.status);
                     const activityCount = capsule.activities?.length || 0;
 
                     return (
@@ -503,28 +543,19 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                                 </div>
                                 <div style={{ flex: 1 }}>
                                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                                        <span style={{ fontWeight: 600, color: text }}>{capsule.label}</span>
-                                        {installed && (
-                                            <GloBadge label="✓" color={success} size="small" />
-                                        )}
+                                        <span style={{ fontWeight: 600, color: text }}>{capsule.name}</span>
+                                        <span style={{ fontSize: 11, color: textMuted }}>v{capsule.version}</span>
                                     </div>
-                                    <div style={{ fontSize: 11, color: textMuted, marginBottom: 8 }}>
+                                    <div style={{ fontSize: 12, color: textMuted, marginBottom: 8 }}>
                                         {capsule.description}
                                     </div>
                                     <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                                        <GloBadge label={capsule.source} color={primary} size="small" />
-                                        {isDashboardOnly && (
-                                            <GloBadge label="Dashboard" color={textMuted} size="small" />
-                                        )}
+                                        {capsule.source && <GloBadge label={capsule.source} color={primary} size="small" />}
+                                        <GloBadge label={`${capsule.files?.length || 0} files`} color={textMuted} size="small" />
                                         {activityCount > 0 && (
                                             <GloBadge label={`${activityCount} activities`} color={textMuted} size="small" />
                                         )}
-                                        {!widgetExists && capsule.widget && (
-                                            <GloBadge label="Widget Missing" color={warning} size="small" />
-                                        )}
-                                        {isDashboardOnly && !dashboardExists && (
-                                            <GloBadge label="Dashboard Missing" color={warning} size="small" />
-                                        )}
+                                        {getStatusBadge(capsule.id, capsule)}
                                     </div>
                                 </div>
                             </div>
@@ -539,37 +570,57 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                                     fontSize: 11,
                                     color: textMuted,
                                 }}>
-                                    <strong>Activities:</strong> {capsule.activities.map(a => a.name).join(", ")}
+                                    <strong>Activities:</strong> {capsule.activities.map(a => `${a.icon} ${a.name}`).join(", ")}
                                 </div>
                             )}
 
-                            {/* Action button */}
-                            <div style={{ marginTop: 12, display: "flex", justifyContent: "flex-end" }}>
+                            {/* File list preview */}
+                            <div style={{
+                                marginTop: 8,
+                                padding: "8px 12px",
+                                background: hexToRgba(primary, 0.05),
+                                borderRadius: 8,
+                                fontSize: 10,
+                                fontFamily: "var(--font-monospace)",
+                                color: textMuted,
+                                maxHeight: 50,
+                                overflow: "auto"
+                            }}>
+                                {capsule.files?.map(f => f.dest).join("\n")}
+                            </div>
+
+                            {/* Action buttons */}
+                            <div style={{ marginTop: 12, display: "flex", gap: 8, justifyContent: "flex-end" }}>
                                 {installed ? (
-                                    <GloButton
-                                        label="Remove"
-                                        icon="✕"
-                                        size="small"
-                                        variant="ghost"
-                                        onClick={() => handleRemoveCapsule(capsule.id)}
-                                        style={{ color: errorColor }}
-                                    />
-                                ) : canInstall ? (
-                                    <GloButton
-                                        label="Add Capsule"
-                                        icon="+"
-                                        size="small"
-                                        variant="primary"
-                                        onClick={() => handleAddCapsule(capsule)}
-                                    />
+                                    <>
+                                        <GloButton
+                                            label="Delete"
+                                            icon="🗑️"
+                                            size="small"
+                                            variant="ghost"
+                                            onClick={() => deleteCapsule(capsule)}
+                                            disabled={isOperating}
+                                            style={{ color: errorColor }}
+                                        />
+                                        <GloButton
+                                            label={hasUpdate ? "Update" : "Reinstall"}
+                                            icon="⬇️"
+                                            size="small"
+                                            variant={hasUpdate ? "primary" : "ghost"}
+                                            onClick={() => pullCapsule(capsule)}
+                                            disabled={isOperating}
+                                            glow={hasUpdate}
+                                        />
+                                    </>
                                 ) : (
                                     <GloButton
-                                        label={isDashboardOnly ? "Copy Dashboard First" : "Copy Widget First"}
-                                        icon="⚠️"
+                                        label="Install"
+                                        icon="📥"
                                         size="small"
-                                        variant="ghost"
-                                        disabled
-                                        style={{ color: warning }}
+                                        variant="primary"
+                                        onClick={() => cloneCapsule(capsule)}
+                                        disabled={isOperating}
+                                        glow
                                     />
                                 )}
                             </div>
@@ -577,6 +628,16 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                     );
                 })}
             </div>
+
+            {/* Empty state */}
+            {filteredCapsules.length === 0 && (
+                <GloCard padding="40px">
+                    <div style={{ textAlign: "center", color: textMuted }}>
+                        <div style={{ fontSize: 48, marginBottom: 12 }}>📦</div>
+                        <div>No capsules found{filter !== "all" ? ` in "${filter}"` : ""}.</div>
+                    </div>
+                </GloCard>
+            )}
         </div>
     );
 }

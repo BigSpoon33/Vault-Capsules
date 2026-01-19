@@ -29,8 +29,8 @@ const SETTINGS_PATH = "System/Settings.md";
 // ─────────────────────────────────────────────────────────────────────────────
 // REMOTE CAPSULE STORE - Network-based capsule management
 // ─────────────────────────────────────────────────────────────────────────────
-const REMOTE_MANIFEST_URL = "https://raw.githubusercontent.com/BigSpoon33/Capsule-Store-Demo/main/capsule-manifest.json";
-const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/BigSpoon33/Capsule-Store-Demo/main";
+const REMOTE_MANIFEST_URL = "https://raw.githubusercontent.com/BigSpoon33/Vault-Capsules/main/capsule-manifest.json";
+const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/BigSpoon33/Vault-Capsules/main";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // HELPER: Load/Save Settings
@@ -346,15 +346,19 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                 }
             };
 
-            // Add to installed-modules for Daily Wrapper tabs
-            const newModule = {
-                id: capsule.id,
-                label: capsule.name,
-                icon: capsule.icon,
-                widget: capsule.widget,
-                description: capsule.description
-            };
-            const newModules = [...installedModules.filter(m => m.id !== capsule.id), newModule];
+            // Only add to installed-modules (top bar) if capsule has a widget defined
+            // Vault-level capsules without widgets are dashboards/planners, not top-bar items
+            let newModules = installedModules;
+            if (capsule.widget) {
+                const newModule = {
+                    id: capsule.id,
+                    label: capsule.name,
+                    icon: capsule.icon,
+                    widget: capsule.widget,
+                    description: capsule.description
+                };
+                newModules = [...installedModules.filter(m => m.id !== capsule.id), newModule];
+            }
 
             // Compute activities from all installed capsules
             const allInstalledIds = Object.keys(newInstalledCapsules);
