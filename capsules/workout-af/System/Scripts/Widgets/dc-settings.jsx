@@ -334,7 +334,17 @@ function CapsulesSection({ settings, onUpdate, theme }) {
         try {
             const installedFiles = [];
 
+            // Get core files that should NOT be overwritten during install
+            const coreFiles = manifest?.coreFiles || [];
+
             for (const file of capsule.files) {
+                // SKIP core files during install - don't overwrite Settings.md, dc-settings.jsx, etc.
+                if (coreFiles.includes(file.dest)) {
+                    console.log(`[Capsules] Skipping core file (install): ${file.dest}`);
+                    installedFiles.push(file.dest); // Still track it as "installed"
+                    continue;
+                }
+
                 const fileUrl = `${GITHUB_RAW_BASE}/${file.src}?t=${Date.now()}`;
                 console.log('[Capsules] Fetching file:', fileUrl);
                 setOperationStatus(prev => ({
