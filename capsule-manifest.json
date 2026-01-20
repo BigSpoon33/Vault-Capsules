@@ -1137,6 +1137,26 @@
           "unit": "g",
           "icon": "🥩",
           "color": "#E17055"
+        },
+        {
+          "id": "carbs",
+          "name": "Carbs",
+          "type": "value",
+          "field": "consumed-carbs",
+          "goal": 250,
+          "unit": "g",
+          "icon": "🍞",
+          "color": "#FDCB6E"
+        },
+        {
+          "id": "fat",
+          "name": "Fat",
+          "type": "value",
+          "field": "consumed-fat",
+          "goal": 65,
+          "unit": "g",
+          "icon": "🥑",
+          "color": "#00B894"
         }
       ],
       "author": "BigSpoon33",
@@ -1376,7 +1396,20 @@
     "System/Scripts/Widgets/dc-themeEditor.jsx",
     "System/Scripts/Widgets/dc-themeStudio.jsx",
     "System/Dashboards/Daily Wrapper.md",
+    "System/Dashboards/Component-Showcase.md",
     "System/Themes/_themeTemplate.md",
-    "System/Themes/default.md"
+    "System/Themes/default.md",
+    "System/Themes/default2.md",
+    "System/Themes/mewSpin.md",
+    "System/Themes/style-settings-crouchingTiger.json",
+    "System/Themes/style-settings-hiddenDragon.json",
+    "System/Themes/style-settings-killaBee.json",
+    "System/Themes/style-settings-makoBlue.json",
+    "System/Themes/style-settings-mewSpin.json",
+    "System/Themes/style-settings-redHawk.json",
+    "System/Themes/style-settings-savageCroc.json",
+    "System/Themes/style-settings-violetViper.json",
+    "System/Themes/style-settings-whiteCrane.json",
+    "System/Templates/Daily Note Template.md"
   ]
 }

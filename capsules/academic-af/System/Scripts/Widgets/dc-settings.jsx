@@ -33,31 +33,41 @@ const REMOTE_MANIFEST_URL = "https://raw.githubusercontent.com/BigSpoon33/Vault-
 const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/BigSpoon33/Vault-Capsules/main";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// HELPER: Load/Save Settings - reads directly from file to avoid stale cache
+// HELPER: Load/Save Settings - parses YAML directly from file (no cache)
 // ─────────────────────────────────────────────────────────────────────────────
 async function loadSettings() {
     const file = app.vault.getAbstractFileByPath(SETTINGS_PATH);
     if (!file) return null;
 
-    // Read file directly to avoid stale metadataCache
     try {
         const content = await app.vault.read(file);
-        // Parse YAML frontmatter
+        // Extract YAML frontmatter
         const match = content.match(/^---\n([\s\S]*?)\n---/);
-        if (match) {
-            // Use Obsidian's built-in YAML parser if available
-            const yaml = match[1];
-            // Simple approach: let Obsidian parse it by triggering cache refresh
-            await app.metadataCache.trigger("resolve", file);
-            // Small delay to let cache update
-            await new Promise(r => setTimeout(r, 50));
-        }
-    } catch (e) {
-        console.warn("Could not force cache refresh:", e);
-    }
+        if (!match) return {};
 
-    const cache = app.metadataCache.getFileCache(file);
-    return cache?.frontmatter || {};
+        const yamlContent = match[1];
+
+        // Try multiple methods to parse YAML
+        // Method 1: Try obsidian module's parseYaml
+        try {
+            const obsidian = require('obsidian');
+            if (obsidian && obsidian.parseYaml) {
+                return obsidian.parseYaml(yamlContent) || {};
+            }
+        } catch (e) {}
+
+        // Method 2: Try global parseYaml
+        if (typeof parseYaml === 'function') {
+            return parseYaml(yamlContent) || {};
+        }
+
+        // Method 3: Fallback to metadataCache (might be slightly stale)
+        const cache = app.metadataCache.getFileCache(file);
+        return cache?.frontmatter || {};
+    } catch (e) {
+        console.error("Failed to load settings:", e);
+        return {};
+    }
 }
 
 async function saveSettings(updates) {
@@ -356,49 +366,58 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                 installedFiles.push(file.dest);
             }
 
-            // IMPORTANT: Read FRESH settings to avoid losing previously installed capsules
-            // (props may be stale if multiple installs happen in sequence)
-            const freshSettings = await loadSettings();
-            const freshInstalledCapsules = freshSettings?.["installed-capsules"] || {};
-            const freshInstalledModules = freshSettings?.["installed-modules"] || [];
+            // Use atomic processFrontMatter to read-modify-write in one operation
+            // This ensures we don't lose data from race conditions or stale reads
+            const settingsFile = app.vault.getAbstractFileByPath(SETTINGS_PATH);
+            if (!settingsFile) throw new Error("Settings.md not found");
 
-            // Update installed-capsules tracking (merge with fresh data)
-            const newInstalledCapsules = {
-                ...freshInstalledCapsules,
-                [capsule.id]: {
-                    version: capsule.version,
-                    installedAt: new Date().toISOString(),
-                    files: installedFiles
-                }
-            };
+            await app.fileManager.processFrontMatter(settingsFile, (fm) => {
+                // Get current values directly from frontmatter (always fresh)
+                const currentInstalledCapsules = fm["installed-capsules"] || {};
+                const currentInstalledModules = fm["installed-modules"] || [];
 
-            // Add widgets from capsule's widgets array to installed-modules (top bar)
-            // This allows vault capsules to define multiple top-bar widgets
-            let newModules = [...freshInstalledModules];
-            if (capsule.widgets && capsule.widgets.length > 0) {
-                for (const widget of capsule.widgets) {
-                    // Skip if already exists (don't duplicate)
-                    if (!newModules.some(m => m.id === widget.id)) {
-                        newModules.push({
-                            id: widget.id,
-                            label: widget.label,
-                            icon: widget.icon,
-                            widget: widget.widget,
-                            description: widget.description
-                        });
+                console.log('[Capsules] Current installed capsules:', Object.keys(currentInstalledCapsules));
+
+                // Merge new capsule into installed-capsules
+                fm["installed-capsules"] = {
+                    ...currentInstalledCapsules,
+                    [capsule.id]: {
+                        version: capsule.version,
+                        installedAt: new Date().toISOString(),
+                        files: installedFiles
+                    }
+                };
+
+                console.log('[Capsules] After merge:', Object.keys(fm["installed-capsules"]));
+
+                // Add widgets from capsule's widgets array to installed-modules (top bar)
+                let newModules = [...currentInstalledModules];
+                if (capsule.widgets && capsule.widgets.length > 0) {
+                    for (const widget of capsule.widgets) {
+                        // Skip if already exists (don't duplicate)
+                        if (!newModules.some(m => m.id === widget.id)) {
+                            newModules.push({
+                                id: widget.id,
+                                label: widget.label,
+                                icon: widget.icon,
+                                widget: widget.widget,
+                                description: widget.description
+                            });
+                        }
                     }
                 }
-            }
+                fm["installed-modules"] = newModules;
 
-            // Compute activities from all installed capsules
-            const allInstalledIds = Object.keys(newInstalledCapsules);
-            const activities = computeActivitiesForCapsules(allInstalledIds, manifest?.capsules || []);
-
-            await onUpdate({
-                "installed-capsules": newInstalledCapsules,
-                "installed-modules": newModules,
-                "activities": activities
+                // Compute activities from all installed capsules
+                const allInstalledIds = Object.keys(fm["installed-capsules"]);
+                console.log('[Capsules] Computing activities for:', allInstalledIds);
+                fm["activities"] = computeActivitiesForCapsules(allInstalledIds, manifest?.capsules || []);
+                console.log('[Capsules] Activities count:', fm["activities"].length);
             });
+
+            // Notify parent to refresh
+            const freshSettings = await loadSettings();
+            onUpdate({});
 
             setOperationStatus(prev => ({
                 ...prev,
@@ -425,12 +444,12 @@ function CapsulesSection({ settings, onUpdate, theme }) {
         setOperationStatus(prev => ({ ...prev, [capsule.id]: { status: "deleting", message: "Removing..." } }));
 
         try {
-            // Read FRESH settings to get accurate installed state
-            const freshSettings = await loadSettings();
-            const freshInstalledCapsules = freshSettings?.["installed-capsules"] || {};
-            const freshInstalledModules = freshSettings?.["installed-modules"] || [];
+            const settingsFile = app.vault.getAbstractFileByPath(SETTINGS_PATH);
+            if (!settingsFile) throw new Error("Settings.md not found");
 
-            const installed = freshInstalledCapsules[capsule.id];
+            // First, read current state to get the file list
+            const currentSettings = await loadSettings();
+            const installed = currentSettings?.["installed-capsules"]?.[capsule.id];
             if (!installed) throw new Error("Capsule not found in installed list");
 
             // Get core files from manifest that should NEVER be deleted
@@ -455,23 +474,26 @@ function CapsulesSection({ settings, onUpdate, theme }) {
             }
             console.log(`[Capsules] Deleted ${deletedCount} files, skipped ${skippedCount} core files`);
 
-            // Remove from installed-capsules (using fresh data)
-            const newInstalledCapsules = { ...freshInstalledCapsules };
-            delete newInstalledCapsules[capsule.id];
+            // Use atomic processFrontMatter to update settings
+            await app.fileManager.processFrontMatter(settingsFile, (fm) => {
+                const currentInstalledCapsules = fm["installed-capsules"] || {};
+                const currentInstalledModules = fm["installed-modules"] || [];
 
-            // Remove widgets that came from this capsule from installed-modules
-            const capsuleWidgetIds = (capsule.widgets || []).map(w => w.id);
-            const newModules = freshInstalledModules.filter(m => !capsuleWidgetIds.includes(m.id));
+                // Remove from installed-capsules
+                delete currentInstalledCapsules[capsule.id];
+                fm["installed-capsules"] = currentInstalledCapsules;
 
-            // Recompute activities
-            const allInstalledIds = Object.keys(newInstalledCapsules);
-            const activities = computeActivitiesForCapsules(allInstalledIds, manifest?.capsules || []);
+                // Remove widgets that came from this capsule from installed-modules
+                const capsuleWidgetIds = (capsule.widgets || []).map(w => w.id);
+                fm["installed-modules"] = currentInstalledModules.filter(m => !capsuleWidgetIds.includes(m.id));
 
-            await onUpdate({
-                "installed-capsules": newInstalledCapsules,
-                "installed-modules": newModules,
-                "activities": activities
+                // Recompute activities
+                const allInstalledIds = Object.keys(currentInstalledCapsules);
+                fm["activities"] = computeActivitiesForCapsules(allInstalledIds, manifest?.capsules || []);
             });
+
+            // Notify parent to refresh
+            onUpdate({});
 
             setOperationStatus(prev => ({
                 ...prev,
@@ -719,12 +741,14 @@ function Settings() {
     }, []);
 
     const handleUpdate = async (updates) => {
-        const success = await saveSettings(updates);
-        if (success) {
-            // Reload settings
-            const s = await loadSettings();
-            setSettings(s);
+        // If updates provided, save them
+        if (updates && Object.keys(updates).length > 0) {
+            await saveSettings(updates);
         }
+        // Always reload settings to get fresh state
+        const s = await loadSettings();
+        setSettings(s);
+        console.log('[Settings] Reloaded settings, installed capsules:', Object.keys(s?.["installed-capsules"] || {}));
     };
 
     if (themeLoading || isLoading) {
