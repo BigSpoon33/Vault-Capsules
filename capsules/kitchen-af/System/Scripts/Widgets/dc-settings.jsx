@@ -33,11 +33,29 @@ const REMOTE_MANIFEST_URL = "https://raw.githubusercontent.com/BigSpoon33/Vault-
 const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/BigSpoon33/Vault-Capsules/main";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// HELPER: Load/Save Settings
+// HELPER: Load/Save Settings - reads directly from file to avoid stale cache
 // ─────────────────────────────────────────────────────────────────────────────
 async function loadSettings() {
     const file = app.vault.getAbstractFileByPath(SETTINGS_PATH);
     if (!file) return null;
+
+    // Read file directly to avoid stale metadataCache
+    try {
+        const content = await app.vault.read(file);
+        // Parse YAML frontmatter
+        const match = content.match(/^---\n([\s\S]*?)\n---/);
+        if (match) {
+            // Use Obsidian's built-in YAML parser if available
+            const yaml = match[1];
+            // Simple approach: let Obsidian parse it by triggering cache refresh
+            await app.metadataCache.trigger("resolve", file);
+            // Small delay to let cache update
+            await new Promise(r => setTimeout(r, 50));
+        }
+    } catch (e) {
+        console.warn("Could not force cache refresh:", e);
+    }
+
     const cache = app.metadataCache.getFileCache(file);
     return cache?.frontmatter || {};
 }
@@ -59,6 +77,8 @@ async function saveSettings(updates) {
                 }
             });
         });
+        // Wait for cache to update after save
+        await new Promise(r => setTimeout(r, 100));
         return true;
     } catch (e) {
         console.error("Failed to save settings:", e);
@@ -336,9 +356,15 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                 installedFiles.push(file.dest);
             }
 
-            // Update installed-capsules tracking
+            // IMPORTANT: Read FRESH settings to avoid losing previously installed capsules
+            // (props may be stale if multiple installs happen in sequence)
+            const freshSettings = await loadSettings();
+            const freshInstalledCapsules = freshSettings?.["installed-capsules"] || {};
+            const freshInstalledModules = freshSettings?.["installed-modules"] || [];
+
+            // Update installed-capsules tracking (merge with fresh data)
             const newInstalledCapsules = {
-                ...installedCapsules,
+                ...freshInstalledCapsules,
                 [capsule.id]: {
                     version: capsule.version,
                     installedAt: new Date().toISOString(),
@@ -348,7 +374,7 @@ function CapsulesSection({ settings, onUpdate, theme }) {
 
             // Add widgets from capsule's widgets array to installed-modules (top bar)
             // This allows vault capsules to define multiple top-bar widgets
-            let newModules = [...installedModules];
+            let newModules = [...freshInstalledModules];
             if (capsule.widgets && capsule.widgets.length > 0) {
                 for (const widget of capsule.widgets) {
                     // Skip if already exists (don't duplicate)
@@ -399,7 +425,12 @@ function CapsulesSection({ settings, onUpdate, theme }) {
         setOperationStatus(prev => ({ ...prev, [capsule.id]: { status: "deleting", message: "Removing..." } }));
 
         try {
-            const installed = installedCapsules[capsule.id];
+            // Read FRESH settings to get accurate installed state
+            const freshSettings = await loadSettings();
+            const freshInstalledCapsules = freshSettings?.["installed-capsules"] || {};
+            const freshInstalledModules = freshSettings?.["installed-modules"] || [];
+
+            const installed = freshInstalledCapsules[capsule.id];
             if (!installed) throw new Error("Capsule not found in installed list");
 
             // Get core files from manifest that should NEVER be deleted
@@ -424,13 +455,13 @@ function CapsulesSection({ settings, onUpdate, theme }) {
             }
             console.log(`[Capsules] Deleted ${deletedCount} files, skipped ${skippedCount} core files`);
 
-            // Remove from installed-capsules
-            const newInstalledCapsules = { ...installedCapsules };
+            // Remove from installed-capsules (using fresh data)
+            const newInstalledCapsules = { ...freshInstalledCapsules };
             delete newInstalledCapsules[capsule.id];
 
             // Remove widgets that came from this capsule from installed-modules
             const capsuleWidgetIds = (capsule.widgets || []).map(w => w.id);
-            const newModules = installedModules.filter(m => !capsuleWidgetIds.includes(m.id));
+            const newModules = freshInstalledModules.filter(m => !capsuleWidgetIds.includes(m.id));
 
             // Recompute activities
             const allInstalledIds = Object.keys(newInstalledCapsules);
