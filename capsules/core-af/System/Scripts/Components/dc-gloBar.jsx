@@ -100,7 +100,8 @@ function GloBar({
     const hasDraggedRef = dc.useRef(false);
     const [, forceUpdate] = dc.useState(0);
     const justFinishedDraggingRef = dc.useRef(false);
-    
+    const boundHandlersRef = dc.useRef({ move: null, end: null });
+
     useComponentCSS();
     
     // ─────────────────────────────────────────────────────────────────────────
@@ -262,11 +263,12 @@ function GloBar({
         isDraggingRef.current = false;
         hasDraggedRef.current = false;
         stopAnimation();
-        
-        document.removeEventListener("mousemove", handleDragMove);
-        document.removeEventListener("mouseup", handleDragEnd);
-        document.removeEventListener("touchmove", handleDragMove);
-        document.removeEventListener("touchend", handleDragEnd);
+
+        const { move, end } = boundHandlersRef.current;
+        document.removeEventListener("mousemove", move);
+        document.removeEventListener("mouseup", end);
+        document.removeEventListener("touchmove", move);
+        document.removeEventListener("touchend", end);
         
         if (!wasDragged) { forceUpdate(n => n + 1); return; }
         
@@ -283,7 +285,7 @@ function GloBar({
     
     const handleDragStart = (e) => {
         if (!draggable) return;
-        if (e.type === 'touchstart') e.preventDefault();
+        e.preventDefault();  // Prevents text selection for mouse AND touch
         e.stopPropagation();
         
         const coords = getClientXY(e);
@@ -295,23 +297,48 @@ function GloBar({
         startAnimation();
         
         if (onDragStart) onDragStart();
-        
-        document.addEventListener("mousemove", handleDragMove);
-        document.addEventListener("mouseup", handleDragEnd);
-        document.addEventListener("touchmove", handleDragMove, { passive: false });
-        document.addEventListener("touchend", handleDragEnd);
+
+        const boundMove = (e) => handleDragMove(e);
+        const boundEnd = (e) => handleDragEnd(e);
+        boundHandlersRef.current = { move: boundMove, end: boundEnd };
+
+        document.addEventListener("mousemove", boundMove);
+        document.addEventListener("mouseup", boundEnd);
+        document.addEventListener("touchmove", boundMove, { passive: false });
+        document.addEventListener("touchend", boundEnd);
     };
     
     // Cleanup
     dc.useEffect(() => {
         return () => {
-            document.removeEventListener("mousemove", handleDragMove);
-            document.removeEventListener("mouseup", handleDragEnd);
-            document.removeEventListener("touchmove", handleDragMove);
-            document.removeEventListener("touchend", handleDragEnd);
+            const { move, end } = boundHandlersRef.current;
+            if (move) {
+                document.removeEventListener("mousemove", move);
+                document.removeEventListener("mouseup", end);
+                document.removeEventListener("touchmove", move);
+                document.removeEventListener("touchend", end);
+            }
         };
     }, []);
-    
+
+    // Capture-phase handler to intercept before Obsidian's sidebar gestures
+    dc.useEffect(() => {
+        const el = barRef.current;
+        if (!el || !draggable) return;
+
+        const handleTouchStartCapture = (e) => {
+            if (e.target === el || el.contains(e.target)) {
+                e.stopPropagation();
+            }
+        };
+
+        el.addEventListener('touchstart', handleTouchStartCapture, { capture: true, passive: false });
+
+        return () => {
+            el.removeEventListener('touchstart', handleTouchStartCapture, { capture: true });
+        };
+    }, [draggable]);
+
     const startAnimation = () => { if (animation !== "none") { setIsAnimating(true); setAnimationClass(`dc-anim-${animation}-loop`); } };
     const stopAnimation = () => { setIsAnimating(false); setAnimationClass(""); };
     
@@ -354,7 +381,9 @@ function GloBar({
         borderRadius: barRadius,
         overflow: "visible",
         cursor: draggable ? (isDraggingRef.current ? "grabbing" : "grab") : "default",
-        touchAction: "none"
+        touchAction: "none",
+        userSelect: "none",
+        WebkitUserSelect: "none",
     } : {
         position: "relative",
         width: barLength,
@@ -367,7 +396,9 @@ function GloBar({
         borderRadius: barRadius,
         overflow: "visible",
         cursor: draggable ? (isDraggingRef.current ? "grabbing" : "grab") : "default",
-        touchAction: "none"
+        touchAction: "none",
+        userSelect: "none",
+        WebkitUserSelect: "none",
     };
 
     const fillStyle = vertical ? {

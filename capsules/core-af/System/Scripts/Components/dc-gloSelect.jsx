@@ -177,13 +177,15 @@ function GloSelect({
                 if (onClose) onClose();
             }
         };
-        
+
         if (isOpen) {
             document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("touchstart", handleClickOutside, { passive: true });
         }
-        
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("touchstart", handleClickOutside);
         };
     }, [isOpen]);
     
@@ -342,6 +344,7 @@ function GloSelect({
             case "Escape":
                 setIsOpen(false);
                 setSearchQuery("");
+                setFocusedIndex(-1);
                 if (onClose) onClose();
                 break;
             case "ArrowDown":
@@ -472,9 +475,17 @@ function GloSelect({
                 aria-disabled={disabled}
                 onClick={() => {
                     if (disabled) return;
-                    setIsOpen(!isOpen);
-                    if (!isOpen && onOpen) onOpen();
-                    if (isOpen && onClose) onClose();
+                    const willOpen = !isOpen;
+                    setIsOpen(willOpen);
+                    if (willOpen) {
+                        const selectedIndex = multiple
+                            ? -1
+                            : normalizedOptions.findIndex(o => o.value === currentValue);
+                        setFocusedIndex(selectedIndex >= 0 ? selectedIndex : -1);
+                        if (onOpen) onOpen();
+                    } else {
+                        if (onClose) onClose();
+                    }
                 }}
                 onKeyDown={handleKeyDown}
                 style={{
