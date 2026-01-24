@@ -287,7 +287,9 @@ function GloBar({
         if (!draggable) return;
         e.preventDefault();  // Prevents text selection for mouse AND touch
         e.stopPropagation();
-        
+        // Stop Obsidian's sidebar gesture handlers from receiving this event
+        if (e.nativeEvent) e.nativeEvent.stopImmediatePropagation();
+
         const coords = getClientXY(e);
         dragStartPosRef.current = coords;
         
@@ -320,24 +322,6 @@ function GloBar({
             }
         };
     }, []);
-
-    // Capture-phase handler to intercept before Obsidian's sidebar gestures
-    dc.useEffect(() => {
-        const el = barRef.current;
-        if (!el || !draggable) return;
-
-        const handleTouchStartCapture = (e) => {
-            if (e.target === el || el.contains(e.target)) {
-                e.stopPropagation();
-            }
-        };
-
-        el.addEventListener('touchstart', handleTouchStartCapture, { capture: true, passive: false });
-
-        return () => {
-            el.removeEventListener('touchstart', handleTouchStartCapture, { capture: true });
-        };
-    }, [draggable]);
 
     const startAnimation = () => { if (animation !== "none") { setIsAnimating(true); setAnimationClass(`dc-anim-${animation}-loop`); } };
     const stopAnimation = () => { setIsAnimating(false); setAnimationClass(""); };
