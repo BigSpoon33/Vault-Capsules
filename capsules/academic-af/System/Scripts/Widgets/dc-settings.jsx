@@ -338,11 +338,17 @@ function CapsulesSection({ settings, onUpdate, theme }) {
             const coreFiles = manifest?.coreFiles || [];
 
             for (const file of capsule.files) {
-                // SKIP core files during install - don't overwrite Settings.md, dc-settings.jsx, etc.
+                // SKIP core files during install - but only if they already exist
+                // First install: core files don't exist → download them
+                // Reinstall: core files exist → skip (preserve customizations)
                 if (coreFiles.includes(file.dest)) {
-                    console.log(`[Capsules] Skipping core file (install): ${file.dest}`);
-                    installedFiles.push(file.dest); // Still track it as "installed"
-                    continue;
+                    const existingFile = app.vault.getAbstractFileByPath(file.dest);
+                    if (existingFile) {
+                        console.log(`[Capsules] Skipping core file (exists): ${file.dest}`);
+                        installedFiles.push(file.dest);
+                        continue;
+                    }
+                    console.log(`[Capsules] Core file missing, installing: ${file.dest}`);
                 }
 
                 const fileUrl = `${GITHUB_RAW_BASE}/${file.src}?t=${Date.now()}`;

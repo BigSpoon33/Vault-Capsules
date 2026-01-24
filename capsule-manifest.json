@@ -1367,6 +1367,38 @@
           "description": "Meal planning & nutrition tracking"
         }
       ]
+    },
+    {
+      "id": "rice-af",
+      "name": "Rice AF",
+      "version": "1.0.0",
+      "description": "Core theme system with Theme Dashboard, Theme Editor, and Themes",
+      "icon": "",
+      "source": "Rice AF",
+      "activities": [],
+      "author": "BigSpoon33",
+      "files": [
+        {
+          "src": "capsules/rice-af/System/dc-themeProvider.jsx",
+          "dest": "System/Scripts/Core/dc-themeProvider.jsx"
+        },
+        {
+	  "src": "capsules/rice-af/System/Dashboards/Theme Studio.md"
+	  "dest": "System/Dashboards/Theme Studio.md"
+	},
+	{
+          "src": "capsules/rice-af/System/Scripts/Widgets/dc-themeDashboard.jsx"
+	  "dest": "System/Scripts/Widgets/dc-themeDashboard.jsx"
+	},
+	{
+	  "src": "capsules/rice-af/System/Scripts/Widgets/dc-themeEditor.jsx"
+	  "dest": "System/Scripts/Widgets/dc-themeEditor.jsx"
+	},
+	{
+	  "src": "capsules/rice-af/System/Scripts/Widgets/dc-themeStudio.jsx"
+	  "dest": "System/Scripts/Widgets/dc-themeStudio.jsx"
+	}
+      ]
     }
   ],
   "coreFiles": [
