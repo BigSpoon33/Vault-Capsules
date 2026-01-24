@@ -120,38 +120,6 @@ function computeActivitiesForCapsules(installedCapsuleIds, manifestCapsules = []
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SECTION: Theme (uses ThemeDashboard)
-// ─────────────────────────────────────────────────────────────────────────────
-function ThemeSection({ theme }) {
-    const [Widget, setWidget] = dc.useState(null);
-    const [error, setError] = dc.useState(null);
-    const textMuted = theme?.["color-text-muted"] || "#a0a0b0";
-
-    dc.useEffect(() => {
-        const loadWidget = async () => {
-            try {
-                const result = await dc.require(dc.fileLink("System/Scripts/Widgets/dc-themeDashboard.jsx"));
-                setWidget(() => result.ThemeDashboard || result.Func || result.default || result);
-            } catch (e) {
-                console.error("Failed to load ThemeDashboard:", e);
-                setError("Theme Dashboard not available");
-            }
-        };
-        loadWidget();
-    }, []);
-
-    if (error) {
-        return <div style={{ padding: 20, textAlign: "center", color: textMuted }}>{error}</div>;
-    }
-
-    if (!Widget) {
-        return <div style={{ padding: 20, textAlign: "center", color: textMuted }}>Loading Theme Dashboard...</div>;
-    }
-
-    return <Widget />;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // SECTION: Order (reorder installed capsules)
 // ─────────────────────────────────────────────────────────────────────────────
 function OrderSection({ settings, onUpdate, theme }) {
@@ -776,7 +744,6 @@ function Settings() {
     }
 
     const tabs = [
-        { id: "theme", label: "Theme", icon: "🎨" },
         { id: "capsules", label: "Capsules", icon: "📦" },
         { id: "order", label: "Order", icon: "↕️" },
     ];
