@@ -1384,11 +1384,7 @@
         },
         {
           "src": "capsules/rice-af/System/Dashboards/Theme-Dashboard.md",
-          "dest": "System/Dashboards/Theme Studio.md"
-        },
-        {
-          "src": "capsules/rice-af/System/Dashboards/Theme-Dashboard.md",
-          "dest": "System/Dashboards/Theme Studio.md"
+          "dest": "System/Dashboards/Theme-Dashboard.md"
         },
         {
           "src": "capsules/rice-af/System/Scripts/Widgets/dc-themeDashboard.jsx",
