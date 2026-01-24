@@ -19,7 +19,10 @@
           "goal": 8,
           "unit": "hrs",
           "icon": "🌙",
-          "color": "#00B894"
+          "color": "#00B894",
+          "hidden": true,
+          "managed": true,
+          "managedBy": "dc-sleepTracker"
         },
         {
           "id": "mood",
@@ -28,7 +31,10 @@
           "field": "mood",
           "goal": 5,
           "icon": "😊",
-          "color": "#A29BFE"
+          "color": "#A29BFE",
+          "hidden": true,
+          "managed": true,
+          "managedBy": "dc-sleepTracker"
         },
         {
           "id": "energy",
@@ -37,7 +43,10 @@
           "field": "energy",
           "goal": 5,
           "icon": "⚡",
-          "color": "#FDCB6E"
+          "color": "#FDCB6E",
+          "hidden": true,
+          "managed": true,
+          "managedBy": "dc-sleepTracker"
         },
         {
           "id": "water",
@@ -47,7 +56,9 @@
           "goal": 3000,
           "unit": "ml",
           "icon": "💧",
-          "color": "#0984E3"
+          "color": "#0984E3",
+          "hidden": false,
+          "managed": false
         },
         {
           "id": "meditation",
@@ -57,7 +68,10 @@
           "goal": 15,
           "unit": "min",
           "icon": "🧘",
-          "color": "#81ECEC"
+          "color": "#81ECEC",
+          "hidden": true,
+          "managed": true,
+          "managedBy": "dc-meditationTimer"
         },
         {
           "id": "gratitude",
@@ -65,7 +79,10 @@
           "type": "count",
           "field": "gratitude",
           "icon": "❤️",
-          "color": "#FD79A8"
+          "color": "#FD79A8",
+          "hidden": true,
+          "managed": true,
+          "managedBy": "dc-eveningReflection"
         }
       ],
       "author": "BigSpoon33",
@@ -550,7 +567,10 @@
           "goal": 4,
           "unit": "hrs",
           "icon": "📚",
-          "color": "#9B59B6"
+          "color": "#9B59B6",
+          "hidden": true,
+          "managed": true,
+          "managedBy": "dc-academicDashboard"
         }
       ],
       "author": "BigSpoon33",
@@ -846,7 +866,10 @@
           "goal": 30,
           "unit": "min",
           "icon": "🏋️",
-          "color": "#E17055"
+          "color": "#E17055",
+          "hidden": true,
+          "managed": true,
+          "managedBy": "dc-workoutToday"
         }
       ],
       "author": "BigSpoon33",
@@ -1126,7 +1149,10 @@
           "goal": 2000,
           "unit": "kcal",
           "icon": "🔥",
-          "color": "#FF7675"
+          "color": "#FF7675",
+          "hidden": true,
+          "managed": true,
+          "managedBy": "dc-mealPlanner"
         },
         {
           "id": "protein",
@@ -1136,7 +1162,10 @@
           "goal": 150,
           "unit": "g",
           "icon": "🥩",
-          "color": "#E17055"
+          "color": "#E17055",
+          "hidden": true,
+          "managed": true,
+          "managedBy": "dc-mealPlanner"
         },
         {
           "id": "carbs",
@@ -1146,7 +1175,10 @@
           "goal": 250,
           "unit": "g",
           "icon": "🍞",
-          "color": "#FDCB6E"
+          "color": "#FDCB6E",
+          "hidden": true,
+          "managed": true,
+          "managedBy": "dc-mealPlanner"
         },
         {
           "id": "fat",
@@ -1156,7 +1188,10 @@
           "goal": 65,
           "unit": "g",
           "icon": "🥑",
-          "color": "#00B894"
+          "color": "#00B894",
+          "hidden": true,
+          "managed": true,
+          "managedBy": "dc-mealPlanner"
         }
       ],
       "author": "BigSpoon33",

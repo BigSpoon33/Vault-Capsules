@@ -67,7 +67,7 @@ const DEFAULT_COLORS = [
 
 const DEFAULT_ACTIVITY = {
     id: "",
-    label: "",
+    name: "",
     field: "",
     type: "value",
     goal: 100,
@@ -161,8 +161,8 @@ function ActivityManager() {
     };
     
     const handleSaveEdit = async () => {
-        if (!editingData || !editingData.id || !editingData.label || !editingData.field) {
-            new Notice("ID, Label, and Field are required");
+        if (!editingData || !editingData.id || !editingData.name || !editingData.field) {
+            new Notice("ID, Name, and Field are required");
             return;
         }
         
@@ -179,7 +179,7 @@ function ActivityManager() {
         if (!activity) return;
         
         // Confirmation
-        const confirmed = confirm(`Delete activity "${activity.label}"?`);
+        const confirmed = confirm(`Delete activity "${activity.name}"?`);
         if (!confirmed) return;
         
         const updated = activities.filter(a => a.id !== activityId);
@@ -218,8 +218,8 @@ function ActivityManager() {
     };
     
     const handleSaveNew = async () => {
-        if (!newActivity.id || !newActivity.label || !newActivity.field) {
-            new Notice("ID, Label, and Field are required");
+        if (!newActivity.id || !newActivity.name || !newActivity.field) {
+            new Notice("ID, Name, and Field are required");
             return;
         }
         
@@ -439,7 +439,7 @@ function ActivityCard({
                 <div style={styles.cardHeader}>
                     <IconPreview icon={editingData.icon} size={20} />
                     <span style={{ fontSize: 14, fontWeight: 600, color: activityColor }}>
-                        Editing: {activity.label}
+                        Editing: {activity.name}
                     </span>
                 </div>
                 
@@ -478,7 +478,7 @@ function ActivityCard({
                 <div style={styles.cardTitle}>
                     <IconPreview icon={activity.icon} size={24} />
                     <div>
-                        <div style={{ fontSize: 14, fontWeight: 600 }}>{activity.label}</div>
+                        <div style={{ fontSize: 14, fontWeight: 600 }}>{activity.name}</div>
                         <div style={{ fontSize: 11, color: textMuted }}>
                             Field: <code style={styles.code}>{activity.field}</code>
                         </div>
@@ -639,10 +639,10 @@ function ActivityForm({ data, onChange, theme, textMuted }) {
         <div style={styles.form}>
             <div style={styles.formRow}>
                 <div style={styles.formField}>
-                    <label style={{ ...styles.label, color: textMuted }}>Label *</label>
+                    <label style={{ ...styles.label, color: textMuted }}>Name *</label>
                     <GloInput
-                        value={data.label || ""}
-                        onChange={(val) => updateField("label", val)}
+                        value={data.name || ""}
+                        onChange={(val) => updateField("name", val)}
                         placeholder="Water"
                         size="small"
                     />
