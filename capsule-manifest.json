@@ -1,8 +1,150 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2026-01-19T00:00:00.000Z",
+  "version": "2.0.0",
+  "lastUpdated": "2026-01-25T00:00:00.000Z",
   "repoUrl": "https://github.com/BigSpoon33/Vault-Capsules",
   "capsules": [
+    {
+      "id": "core-af",
+      "name": "Core AF",
+      "version": "1.0.0",
+      "description": "Core system - REQUIRED for all other capsules. Includes settings, components, theme management, and daily wrapper.",
+      "icon": "🧠",
+      "source": "Core AF",
+      "author": "BigSpoon33",
+      "coreFileBehavior": "update",
+      "activities": [],
+      "files": [
+        { "_comment": "=== SETTINGS ===" },
+        {
+          "src": "capsules/core-af/System/Settings.md",
+          "dest": "System/Settings.md"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Widgets/dc-settings.jsx",
+          "dest": "System/Scripts/Widgets/dc-settings.jsx"
+        },
+
+        { "_comment": "=== CORE UTILITIES ===" },
+        {
+          "src": "capsules/core-af/System/Scripts/Core/dc-themeProvider.jsx",
+          "dest": "System/Scripts/Core/dc-themeProvider.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Core/dc-dateContext.jsx",
+          "dest": "System/Scripts/Core/dc-dateContext.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Core/dc-gradientUtils.jsx",
+          "dest": "System/Scripts/Core/dc-gradientUtils.jsx"
+        },
+
+        { "_comment": "=== COMPONENTS ===" },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-backgroundPicker.jsx",
+          "dest": "System/Scripts/Components/dc-backgroundPicker.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-calendarPicker.jsx",
+          "dest": "System/Scripts/Components/dc-calendarPicker.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-colorPicker.jsx",
+          "dest": "System/Scripts/Components/dc-colorPicker.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-gloBadge.jsx",
+          "dest": "System/Scripts/Components/dc-gloBadge.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-gloBar.jsx",
+          "dest": "System/Scripts/Components/dc-gloBar.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-gloButton.jsx",
+          "dest": "System/Scripts/Components/dc-gloButton.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-gloCard.jsx",
+          "dest": "System/Scripts/Components/dc-gloCard.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-gloDial.jsx",
+          "dest": "System/Scripts/Components/dc-gloDial.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-gloInput.jsx",
+          "dest": "System/Scripts/Components/dc-gloInput.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-gloSelect.jsx",
+          "dest": "System/Scripts/Components/dc-gloSelect.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-gloTabs.jsx",
+          "dest": "System/Scripts/Components/dc-gloTabs.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-gloToggle.jsx",
+          "dest": "System/Scripts/Components/dc-gloToggle.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-gradientBuilder.jsx",
+          "dest": "System/Scripts/Components/dc-gradientBuilder.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-meditationAnimations.jsx",
+          "dest": "System/Scripts/Components/dc-meditationAnimations.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-stickyPreview.jsx",
+          "dest": "System/Scripts/Components/dc-stickyPreview.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Components/dc-themePreviewContent.jsx",
+          "dest": "System/Scripts/Components/dc-themePreviewContent.jsx"
+        },
+
+        { "_comment": "=== THEME SYSTEM ===" },
+        {
+          "src": "capsules/core-af/System/Scripts/Widgets/dc-themeDashboard.jsx",
+          "dest": "System/Scripts/Widgets/dc-themeDashboard.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Widgets/dc-themeEditor.jsx",
+          "dest": "System/Scripts/Widgets/dc-themeEditor.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Scripts/Widgets/dc-themeStudio.jsx",
+          "dest": "System/Scripts/Widgets/dc-themeStudio.jsx"
+        },
+
+        { "_comment": "=== DAILY WRAPPER ===" },
+        {
+          "src": "capsules/core-af/System/Scripts/Wrappers/dc-dailyWrapper.jsx",
+          "dest": "System/Scripts/Wrappers/dc-dailyWrapper.jsx"
+        },
+        {
+          "src": "capsules/core-af/System/Dashboards/Daily Wrapper.md",
+          "dest": "System/Dashboards/Daily Wrapper.md"
+        },
+
+        { "_comment": "=== BASE THEMES ===" },
+        {
+          "src": "capsules/core-af/System/Themes/_themeTemplate.md",
+          "dest": "System/Themes/_themeTemplate.md"
+        },
+        {
+          "src": "capsules/core-af/System/Themes/default.md",
+          "dest": "System/Themes/default.md"
+        },
+
+        { "_comment": "=== TEMPLATES ===" },
+        {
+          "src": "capsules/core-af/System/Templates/Daily Note Template.md",
+          "dest": "System/Templates/Daily Note Template.md"
+        }
+      ]
+    },
     {
       "id": "active-af",
       "name": "Active AF",
@@ -10,6 +152,9 @@
       "description": "Activity tracking, meditation, sleep, water intake, journaling, and daily wellness tools",
       "icon": "🎯",
       "source": "Active AF",
+      "author": "BigSpoon33",
+      "requires": ["core-af"],
+      "coreFileBehavior": "skip",
       "activities": [
         {
           "id": "sleep",
@@ -85,108 +230,20 @@
           "managedBy": "dc-eveningReflection"
         }
       ],
-      "author": "BigSpoon33",
       "files": [
+        { "_comment": "=== CATEGORIES ===" },
         {
           "src": "capsules/active-af/System/Categories/Journal.md",
           "dest": "System/Categories/Journal.md"
         },
+
+        { "_comment": "=== DASHBOARDS ===" },
         {
           "src": "capsules/active-af/System/Dashboards/Activity Manager.md",
           "dest": "System/Dashboards/Activity Manager.md"
         },
-        {
-          "src": "capsules/active-af/System/Dashboards/Component-Showcase.md",
-          "dest": "System/Dashboards/Component-Showcase.md"
-        },
-        {
-          "src": "capsules/active-af/System/Dashboards/Daily Wrapper.md",
-          "dest": "System/Dashboards/Daily Wrapper.md"
-        },
-        {
-          "src": "capsules/active-af/System/Dashboards/Network-Test.md",
-          "dest": "System/Dashboards/Network-Test.md"
-        },
-        {
-          "src": "capsules/active-af/System/Periodic/2026-01-16.md",
-          "dest": "System/Periodic/2026-01-16.md"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-backgroundPicker.jsx",
-          "dest": "System/Scripts/Components/dc-backgroundPicker.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-calendarPicker.jsx",
-          "dest": "System/Scripts/Components/dc-calendarPicker.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-colorPicker.jsx",
-          "dest": "System/Scripts/Components/dc-colorPicker.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-gloBadge.jsx",
-          "dest": "System/Scripts/Components/dc-gloBadge.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-gloBar.jsx",
-          "dest": "System/Scripts/Components/dc-gloBar.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-gloButton.jsx",
-          "dest": "System/Scripts/Components/dc-gloButton.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-gloCard.jsx",
-          "dest": "System/Scripts/Components/dc-gloCard.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-gloDial.jsx",
-          "dest": "System/Scripts/Components/dc-gloDial.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-gloInput.jsx",
-          "dest": "System/Scripts/Components/dc-gloInput.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-gloSelect.jsx",
-          "dest": "System/Scripts/Components/dc-gloSelect.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-gloTabs.jsx",
-          "dest": "System/Scripts/Components/dc-gloTabs.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-gloToggle.jsx",
-          "dest": "System/Scripts/Components/dc-gloToggle.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-gradientBuilder.jsx",
-          "dest": "System/Scripts/Components/dc-gradientBuilder.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-meditationAnimations.jsx",
-          "dest": "System/Scripts/Components/dc-meditationAnimations.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-stickyPreview.jsx",
-          "dest": "System/Scripts/Components/dc-stickyPreview.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Components/dc-themePreviewContent.jsx",
-          "dest": "System/Scripts/Components/dc-themePreviewContent.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Core/dc-dateContext.jsx",
-          "dest": "System/Scripts/Core/dc-dateContext.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Core/dc-gradientUtils.jsx",
-          "dest": "System/Scripts/Core/dc-gradientUtils.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Core/dc-themeProvider.jsx",
-          "dest": "System/Scripts/Core/dc-themeProvider.jsx"
-        },
+
+        { "_comment": "=== WIDGETS ===" },
         {
           "src": "capsules/active-af/System/Scripts/Widgets/dc-activities.jsx",
           "dest": "System/Scripts/Widgets/dc-activities.jsx"
@@ -204,10 +261,6 @@
           "dest": "System/Scripts/Widgets/dc-activityTracker.jsx"
         },
         {
-          "src": "capsules/active-af/System/Scripts/Widgets/dc-demoWidget.jsx",
-          "dest": "System/Scripts/Widgets/dc-demoWidget.jsx"
-        },
-        {
           "src": "capsules/active-af/System/Scripts/Widgets/dc-eveningReflection.jsx",
           "dest": "System/Scripts/Widgets/dc-eveningReflection.jsx"
         },
@@ -220,108 +273,26 @@
           "dest": "System/Scripts/Widgets/dc-meditationTimer.jsx"
         },
         {
-          "src": "capsules/active-af/System/Scripts/Widgets/dc-networkTest.jsx",
-          "dest": "System/Scripts/Widgets/dc-networkTest.jsx"
-        },
-        {
           "src": "capsules/active-af/System/Scripts/Widgets/dc-randomQuote.jsx",
           "dest": "System/Scripts/Widgets/dc-randomQuote.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Widgets/dc-settings.jsx",
-          "dest": "System/Scripts/Widgets/dc-settings.jsx"
         },
         {
           "src": "capsules/active-af/System/Scripts/Widgets/dc-sleepTracker.jsx",
           "dest": "System/Scripts/Widgets/dc-sleepTracker.jsx"
         },
         {
-          "src": "capsules/active-af/System/Scripts/Widgets/dc-themeDashboard.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeDashboard.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Widgets/dc-themeEditor.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeEditor.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Scripts/Widgets/dc-themeStudio.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeStudio.jsx"
-        },
-        {
           "src": "capsules/active-af/System/Scripts/Widgets/dc-waterTracker.jsx",
           "dest": "System/Scripts/Widgets/dc-waterTracker.jsx"
         },
-        {
-          "src": "capsules/active-af/System/Scripts/Wrappers/dc-dailyWrapper.jsx",
-          "dest": "System/Scripts/Wrappers/dc-dailyWrapper.jsx"
-        },
-        {
-          "src": "capsules/active-af/System/Settings.md",
-          "dest": "System/Settings.md"
-        },
+
+        { "_comment": "=== TEMPLATES ===" },
         {
           "src": "capsules/active-af/System/Templates/Bases/Journal.base",
           "dest": "System/Templates/Bases/Journal.base"
         },
         {
-          "src": "capsules/active-af/System/Templates/Daily Note Template.md",
-          "dest": "System/Templates/Daily Note Template.md"
-        },
-        {
           "src": "capsules/active-af/System/Templates/Journal Template.md",
           "dest": "System/Templates/Journal Template.md"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/_themeTemplate.md",
-          "dest": "System/Themes/_themeTemplate.md"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/default.md",
-          "dest": "System/Themes/default.md"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/default2.md",
-          "dest": "System/Themes/default2.md"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/mewSpin.md",
-          "dest": "System/Themes/mewSpin.md"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/style-settings-crouchingTiger.json",
-          "dest": "System/Themes/style-settings-crouchingTiger.json"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/style-settings-hiddenDragon.json",
-          "dest": "System/Themes/style-settings-hiddenDragon.json"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/style-settings-killaBee.json",
-          "dest": "System/Themes/style-settings-killaBee.json"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/style-settings-makoBlue.json",
-          "dest": "System/Themes/style-settings-makoBlue.json"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/style-settings-mewSpin.json",
-          "dest": "System/Themes/style-settings-mewSpin.json"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/style-settings-redHawk.json",
-          "dest": "System/Themes/style-settings-redHawk.json"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/style-settings-savageCroc.json",
-          "dest": "System/Themes/style-settings-savageCroc.json"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/style-settings-violetViper.json",
-          "dest": "System/Themes/style-settings-violetViper.json"
-        },
-        {
-          "src": "capsules/active-af/System/Themes/style-settings-whiteCrane.json",
-          "dest": "System/Themes/style-settings-whiteCrane.json"
         }
       ],
       "widgets": [
@@ -366,180 +337,16 @@
       "id": "daily-af",
       "name": "Daily AF",
       "version": "1.0.0",
-      "description": "Core daily note system with wrapper, settings, and theme management",
+      "description": "Core daily note system with journaling widget",
       "icon": "📅",
       "source": "Daily AF",
-      "activities": [],
       "author": "BigSpoon33",
+      "requires": ["core-af"],
+      "coreFileBehavior": "skip",
+      "activities": [],
       "files": [
-        {
-          "src": "capsules/daily-af/System/Dashboards/Component-Showcase.md",
-          "dest": "System/Dashboards/Component-Showcase.md"
-        },
-        {
-          "src": "capsules/daily-af/System/Dashboards/Daily Wrapper.md",
-          "dest": "System/Dashboards/Daily Wrapper.md"
-        },
-        {
-          "src": "capsules/daily-af/System/Periodic/2026-01-16.md",
-          "dest": "System/Periodic/2026-01-16.md"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-backgroundPicker.jsx",
-          "dest": "System/Scripts/Components/dc-backgroundPicker.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-calendarPicker.jsx",
-          "dest": "System/Scripts/Components/dc-calendarPicker.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-colorPicker.jsx",
-          "dest": "System/Scripts/Components/dc-colorPicker.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-gloBadge.jsx",
-          "dest": "System/Scripts/Components/dc-gloBadge.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-gloBar.jsx",
-          "dest": "System/Scripts/Components/dc-gloBar.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-gloButton.jsx",
-          "dest": "System/Scripts/Components/dc-gloButton.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-gloCard.jsx",
-          "dest": "System/Scripts/Components/dc-gloCard.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-gloDial.jsx",
-          "dest": "System/Scripts/Components/dc-gloDial.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-gloInput.jsx",
-          "dest": "System/Scripts/Components/dc-gloInput.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-gloSelect.jsx",
-          "dest": "System/Scripts/Components/dc-gloSelect.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-gloTabs.jsx",
-          "dest": "System/Scripts/Components/dc-gloTabs.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-gloToggle.jsx",
-          "dest": "System/Scripts/Components/dc-gloToggle.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-gradientBuilder.jsx",
-          "dest": "System/Scripts/Components/dc-gradientBuilder.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-meditationAnimations.jsx",
-          "dest": "System/Scripts/Components/dc-meditationAnimations.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-stickyPreview.jsx",
-          "dest": "System/Scripts/Components/dc-stickyPreview.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Components/dc-themePreviewContent.jsx",
-          "dest": "System/Scripts/Components/dc-themePreviewContent.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Core/dc-dateContext.jsx",
-          "dest": "System/Scripts/Core/dc-dateContext.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Core/dc-gradientUtils.jsx",
-          "dest": "System/Scripts/Core/dc-gradientUtils.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Core/dc-themeProvider.jsx",
-          "dest": "System/Scripts/Core/dc-themeProvider.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Widgets/dc-settings.jsx",
-          "dest": "System/Scripts/Widgets/dc-settings.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Widgets/dc-themeDashboard.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeDashboard.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Widgets/dc-themeEditor.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeEditor.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Widgets/dc-themeStudio.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeStudio.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Scripts/Wrappers/dc-dailyWrapper.jsx",
-          "dest": "System/Scripts/Wrappers/dc-dailyWrapper.jsx"
-        },
-        {
-          "src": "capsules/daily-af/System/Settings.md",
-          "dest": "System/Settings.md"
-        },
-        {
-          "src": "capsules/daily-af/System/Templates/Daily Note Template.md",
-          "dest": "System/Templates/Daily Note Template.md"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/_themeTemplate.md",
-          "dest": "System/Themes/_themeTemplate.md"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/default.md",
-          "dest": "System/Themes/default.md"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/default2.md",
-          "dest": "System/Themes/default2.md"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/mewSpin.md",
-          "dest": "System/Themes/mewSpin.md"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/style-settings-crouchingTiger.json",
-          "dest": "System/Themes/style-settings-crouchingTiger.json"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/style-settings-hiddenDragon.json",
-          "dest": "System/Themes/style-settings-hiddenDragon.json"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/style-settings-killaBee.json",
-          "dest": "System/Themes/style-settings-killaBee.json"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/style-settings-makoBlue.json",
-          "dest": "System/Themes/style-settings-makoBlue.json"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/style-settings-mewSpin.json",
-          "dest": "System/Themes/style-settings-mewSpin.json"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/style-settings-redHawk.json",
-          "dest": "System/Themes/style-settings-redHawk.json"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/style-settings-savageCroc.json",
-          "dest": "System/Themes/style-settings-savageCroc.json"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/style-settings-violetViper.json",
-          "dest": "System/Themes/style-settings-violetViper.json"
-        },
-        {
-          "src": "capsules/daily-af/System/Themes/style-settings-whiteCrane.json",
-          "dest": "System/Themes/style-settings-whiteCrane.json"
-        }
+        { "_comment": "=== DAILY-AF SPECIFIC FILES ONLY ===" },
+        { "_comment": "All core files (components, settings, themes) come from core-af" }
       ],
       "widgets": [
         {
@@ -558,6 +365,9 @@
       "description": "Academic tracking with courses, assignments, exams, and study progress",
       "icon": "🎓",
       "source": "Academic AF",
+      "author": "BigSpoon33",
+      "requires": ["core-af"],
+      "coreFileBehavior": "skip",
       "activities": [
         {
           "id": "study",
@@ -573,8 +383,103 @@
           "managedBy": "dc-academicDashboard"
         }
       ],
-      "author": "BigSpoon33",
       "files": [
+        { "_comment": "=== CATEGORIES ===" },
+        {
+          "src": "capsules/academic-af/System/Categories/Classes.md",
+          "dest": "System/Categories/Classes.md"
+        },
+        {
+          "src": "capsules/academic-af/System/Categories/Coursework.md",
+          "dest": "System/Categories/Coursework.md"
+        },
+
+        { "_comment": "=== DASHBOARDS ===" },
+        {
+          "src": "capsules/academic-af/System/Dashboards/Academic Dashboard.md",
+          "dest": "System/Dashboards/Academic Dashboard.md"
+        },
+
+        { "_comment": "=== WIDGETS ===" },
+        {
+          "src": "capsules/academic-af/System/Scripts/Widgets/dc-academicDashboard.jsx",
+          "dest": "System/Scripts/Widgets/dc-academicDashboard.jsx"
+        },
+        {
+          "src": "capsules/academic-af/System/Scripts/Widgets/dc-classView.jsx",
+          "dest": "System/Scripts/Widgets/dc-classView.jsx"
+        },
+        {
+          "src": "capsules/academic-af/System/Scripts/Widgets/dc-courseworkView.jsx",
+          "dest": "System/Scripts/Widgets/dc-courseworkView.jsx"
+        },
+
+        { "_comment": "=== TASKNOTES VIEWS ===" },
+        {
+          "src": "capsules/academic-af/System/TaskNotes/Views/agenda-default.base",
+          "dest": "System/TaskNotes/Views/agenda-default.base"
+        },
+        {
+          "src": "capsules/academic-af/System/TaskNotes/Views/calendar-default.base",
+          "dest": "System/TaskNotes/Views/calendar-default.base"
+        },
+        {
+          "src": "capsules/academic-af/System/TaskNotes/Views/kanban-default.base",
+          "dest": "System/TaskNotes/Views/kanban-default.base"
+        },
+        {
+          "src": "capsules/academic-af/System/TaskNotes/Views/mini-calendar-default.base",
+          "dest": "System/TaskNotes/Views/mini-calendar-default.base"
+        },
+        {
+          "src": "capsules/academic-af/System/TaskNotes/Views/relationships.base",
+          "dest": "System/TaskNotes/Views/relationships.base"
+        },
+        {
+          "src": "capsules/academic-af/System/TaskNotes/Views/tasks-default.base",
+          "dest": "System/TaskNotes/Views/tasks-default.base"
+        },
+
+        { "_comment": "=== TEMPLATES ===" },
+        {
+          "src": "capsules/academic-af/System/Templates/Bases/Classes.base",
+          "dest": "System/Templates/Bases/Classes.base"
+        },
+        {
+          "src": "capsules/academic-af/System/Templates/Bases/Coursework.base",
+          "dest": "System/Templates/Bases/Coursework.base"
+        },
+        {
+          "src": "capsules/academic-af/System/Templates/Class Template.md",
+          "dest": "System/Templates/Class Template.md"
+        },
+        {
+          "src": "capsules/academic-af/System/Templates/Coursework Template.md",
+          "dest": "System/Templates/Coursework Template.md"
+        },
+        {
+          "src": "capsules/academic-af/System/Templates/Lecture Notes Template.md",
+          "dest": "System/Templates/Lecture Notes Template.md"
+        },
+        {
+          "src": "capsules/academic-af/System/Templates/Term Template.md",
+          "dest": "System/Templates/Term Template.md"
+        }
+      ],
+      "widgets": []
+    },
+    {
+      "id": "academic-af examples",
+      "name": "Academic AF Examples",
+      "version": "1.0.0",
+      "description": "Example classes and coursework for Academic AF capsule",
+      "icon": "🎓",
+      "source": "Academic AF",
+      "author": "BigSpoon33",
+      "requires": ["academic-af"],
+      "coreFileBehavior": "skip",
+      "files": [
+        { "_comment": "=== EXAMPLE CLASSES ===" },
         {
           "src": "capsules/academic-af/System/Academic/Classes/ACU-201 Acu Test/ACU-201 Acu Test.md",
           "dest": "System/Academic/Classes/ACU-201 Acu Test/ACU-201 Acu Test.md"
@@ -623,232 +528,13 @@
           "src": "capsules/academic-af/System/Academic/Classes/ENG-101 English Class Example/ENG-101 Project 01-14.md",
           "dest": "System/Academic/Classes/ENG-101 English Class Example/ENG-101 Project 01-14.md"
         },
+
+        { "_comment": "=== EXAMPLE TERMS ===" },
         {
           "src": "capsules/academic-af/System/Academic/Terms/Spring 2026.md",
           "dest": "System/Academic/Terms/Spring 2026.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Categories/Classes.md",
-          "dest": "System/Categories/Classes.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Categories/Coursework.md",
-          "dest": "System/Categories/Coursework.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Dashboards/Academic Dashboard.md",
-          "dest": "System/Dashboards/Academic Dashboard.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Dashboards/Component-Showcase.md",
-          "dest": "System/Dashboards/Component-Showcase.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-backgroundPicker.jsx",
-          "dest": "System/Scripts/Components/dc-backgroundPicker.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-calendarPicker.jsx",
-          "dest": "System/Scripts/Components/dc-calendarPicker.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-colorPicker.jsx",
-          "dest": "System/Scripts/Components/dc-colorPicker.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-gloBadge.jsx",
-          "dest": "System/Scripts/Components/dc-gloBadge.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-gloBar.jsx",
-          "dest": "System/Scripts/Components/dc-gloBar.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-gloButton.jsx",
-          "dest": "System/Scripts/Components/dc-gloButton.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-gloCard.jsx",
-          "dest": "System/Scripts/Components/dc-gloCard.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-gloDial.jsx",
-          "dest": "System/Scripts/Components/dc-gloDial.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-gloInput.jsx",
-          "dest": "System/Scripts/Components/dc-gloInput.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-gloSelect.jsx",
-          "dest": "System/Scripts/Components/dc-gloSelect.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-gloTabs.jsx",
-          "dest": "System/Scripts/Components/dc-gloTabs.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-gloToggle.jsx",
-          "dest": "System/Scripts/Components/dc-gloToggle.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-gradientBuilder.jsx",
-          "dest": "System/Scripts/Components/dc-gradientBuilder.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-meditationAnimations.jsx",
-          "dest": "System/Scripts/Components/dc-meditationAnimations.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-stickyPreview.jsx",
-          "dest": "System/Scripts/Components/dc-stickyPreview.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Components/dc-themePreviewContent.jsx",
-          "dest": "System/Scripts/Components/dc-themePreviewContent.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Core/dc-gradientUtils.jsx",
-          "dest": "System/Scripts/Core/dc-gradientUtils.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Core/dc-themeProvider.jsx",
-          "dest": "System/Scripts/Core/dc-themeProvider.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Widgets/dc-academicDashboard.jsx",
-          "dest": "System/Scripts/Widgets/dc-academicDashboard.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Widgets/dc-classView.jsx",
-          "dest": "System/Scripts/Widgets/dc-classView.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Widgets/dc-courseworkView.jsx",
-          "dest": "System/Scripts/Widgets/dc-courseworkView.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Widgets/dc-settings.jsx",
-          "dest": "System/Scripts/Widgets/dc-settings.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Widgets/dc-themeDashboard.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeDashboard.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Widgets/dc-themeEditor.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeEditor.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Scripts/Widgets/dc-themeStudio.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeStudio.jsx"
-        },
-        {
-          "src": "capsules/academic-af/System/Settings.md",
-          "dest": "System/Settings.md"
-        },
-        {
-          "src": "capsules/academic-af/System/TaskNotes/Views/agenda-default.base",
-          "dest": "System/TaskNotes/Views/agenda-default.base"
-        },
-        {
-          "src": "capsules/academic-af/System/TaskNotes/Views/calendar-default.base",
-          "dest": "System/TaskNotes/Views/calendar-default.base"
-        },
-        {
-          "src": "capsules/academic-af/System/TaskNotes/Views/kanban-default.base",
-          "dest": "System/TaskNotes/Views/kanban-default.base"
-        },
-        {
-          "src": "capsules/academic-af/System/TaskNotes/Views/mini-calendar-default.base",
-          "dest": "System/TaskNotes/Views/mini-calendar-default.base"
-        },
-        {
-          "src": "capsules/academic-af/System/TaskNotes/Views/relationships.base",
-          "dest": "System/TaskNotes/Views/relationships.base"
-        },
-        {
-          "src": "capsules/academic-af/System/TaskNotes/Views/tasks-default.base",
-          "dest": "System/TaskNotes/Views/tasks-default.base"
-        },
-        {
-          "src": "capsules/academic-af/System/Templates/Bases/Classes.base",
-          "dest": "System/Templates/Bases/Classes.base"
-        },
-        {
-          "src": "capsules/academic-af/System/Templates/Bases/Coursework.base",
-          "dest": "System/Templates/Bases/Coursework.base"
-        },
-        {
-          "src": "capsules/academic-af/System/Templates/Class Template.md",
-          "dest": "System/Templates/Class Template.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Templates/Coursework Template.md",
-          "dest": "System/Templates/Coursework Template.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Templates/Lecture Notes Template.md",
-          "dest": "System/Templates/Lecture Notes Template.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Templates/Term Template.md",
-          "dest": "System/Templates/Term Template.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/_themeTemplate.md",
-          "dest": "System/Themes/_themeTemplate.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/default.md",
-          "dest": "System/Themes/default.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/default2.md",
-          "dest": "System/Themes/default2.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/mewSpin.md",
-          "dest": "System/Themes/mewSpin.md"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/style-settings-crouchingTiger.json",
-          "dest": "System/Themes/style-settings-crouchingTiger.json"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/style-settings-hiddenDragon.json",
-          "dest": "System/Themes/style-settings-hiddenDragon.json"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/style-settings-killaBee.json",
-          "dest": "System/Themes/style-settings-killaBee.json"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/style-settings-makoBlue.json",
-          "dest": "System/Themes/style-settings-makoBlue.json"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/style-settings-mewSpin.json",
-          "dest": "System/Themes/style-settings-mewSpin.json"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/style-settings-redHawk.json",
-          "dest": "System/Themes/style-settings-redHawk.json"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/style-settings-savageCroc.json",
-          "dest": "System/Themes/style-settings-savageCroc.json"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/style-settings-violetViper.json",
-          "dest": "System/Themes/style-settings-violetViper.json"
-        },
-        {
-          "src": "capsules/academic-af/System/Themes/style-settings-whiteCrane.json",
-          "dest": "System/Themes/style-settings-whiteCrane.json"
         }
-      ],
-      "widgets": []
+      ]
     },
     {
       "id": "workout-af",
@@ -857,6 +543,9 @@
       "description": "Workout planning, exercise tracking, muscle mapping, and fitness routines",
       "icon": "💪",
       "source": "Workout AF",
+      "author": "BigSpoon33",
+      "requires": ["core-af"],
+      "coreFileBehavior": "skip",
       "activities": [
         {
           "id": "exercise",
@@ -872,8 +561,8 @@
           "managedBy": "dc-workoutToday"
         }
       ],
-      "author": "BigSpoon33",
       "files": [
+        { "_comment": "=== ASSETS ===" },
         {
           "src": "capsules/workout-af/System/Assets/Anatomy/INKSCAPE_GUIDE.md",
           "dest": "System/Assets/Anatomy/INKSCAPE_GUIDE.md"
@@ -922,6 +611,8 @@
           "src": "capsules/workout-af/System/Assets/Anatomy/muscles_labeled.svg",
           "dest": "System/Assets/Anatomy/muscles_labeled.svg"
         },
+
+        { "_comment": "=== CATEGORIES ===" },
         {
           "src": "capsules/workout-af/System/Categories/Exercise.md",
           "dest": "System/Categories/Exercise.md"
@@ -930,113 +621,23 @@
           "src": "capsules/workout-af/System/Categories/Workout Plan.md",
           "dest": "System/Categories/Workout Plan.md"
         },
-        {
-          "src": "capsules/workout-af/System/Dashboards/Component-Showcase.md",
-          "dest": "System/Dashboards/Component-Showcase.md"
-        },
+
+        { "_comment": "=== PLANNERS ===" },
         {
           "src": "capsules/workout-af/System/Planners/Exercise Planner.md",
           "dest": "System/Planners/Exercise Planner.md"
         },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-backgroundPicker.jsx",
-          "dest": "System/Scripts/Components/dc-backgroundPicker.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-calendarPicker.jsx",
-          "dest": "System/Scripts/Components/dc-calendarPicker.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-colorPicker.jsx",
-          "dest": "System/Scripts/Components/dc-colorPicker.jsx"
-        },
+
+        { "_comment": "=== COMPONENTS (WORKOUT-SPECIFIC) ===" },
         {
           "src": "capsules/workout-af/System/Scripts/Components/dc-exercisePicker.jsx",
           "dest": "System/Scripts/Components/dc-exercisePicker.jsx"
         },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-gloBadge.jsx",
-          "dest": "System/Scripts/Components/dc-gloBadge.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-gloBar.jsx",
-          "dest": "System/Scripts/Components/dc-gloBar.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-gloButton.jsx",
-          "dest": "System/Scripts/Components/dc-gloButton.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-gloCard.jsx",
-          "dest": "System/Scripts/Components/dc-gloCard.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-gloDial.jsx",
-          "dest": "System/Scripts/Components/dc-gloDial.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-gloInput.jsx",
-          "dest": "System/Scripts/Components/dc-gloInput.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-gloSelect.jsx",
-          "dest": "System/Scripts/Components/dc-gloSelect.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-gloTabs.jsx",
-          "dest": "System/Scripts/Components/dc-gloTabs.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-gloToggle.jsx",
-          "dest": "System/Scripts/Components/dc-gloToggle.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-gradientBuilder.jsx",
-          "dest": "System/Scripts/Components/dc-gradientBuilder.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-meditationAnimations.jsx",
-          "dest": "System/Scripts/Components/dc-meditationAnimations.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-stickyPreview.jsx",
-          "dest": "System/Scripts/Components/dc-stickyPreview.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Components/dc-themePreviewContent.jsx",
-          "dest": "System/Scripts/Components/dc-themePreviewContent.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Core/dc-dateContext.jsx",
-          "dest": "System/Scripts/Core/dc-dateContext.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Core/dc-gradientUtils.jsx",
-          "dest": "System/Scripts/Core/dc-gradientUtils.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Core/dc-themeProvider.jsx",
-          "dest": "System/Scripts/Core/dc-themeProvider.jsx"
-        },
+
+        { "_comment": "=== WIDGETS ===" },
         {
           "src": "capsules/workout-af/System/Scripts/Widgets/dc-muscleMap.jsx",
           "dest": "System/Scripts/Widgets/dc-muscleMap.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Widgets/dc-settings.jsx",
-          "dest": "System/Scripts/Widgets/dc-settings.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Widgets/dc-themeDashboard.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeDashboard.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Widgets/dc-themeEditor.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeEditor.jsx"
-        },
-        {
-          "src": "capsules/workout-af/System/Scripts/Widgets/dc-themeStudio.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeStudio.jsx"
         },
         {
           "src": "capsules/workout-af/System/Scripts/Widgets/dc-weeklyWorkout.jsx",
@@ -1050,10 +651,8 @@
           "src": "capsules/workout-af/System/Scripts/Widgets/dc-workoutToday.jsx",
           "dest": "System/Scripts/Widgets/dc-workoutToday.jsx"
         },
-        {
-          "src": "capsules/workout-af/System/Settings.md",
-          "dest": "System/Settings.md"
-        },
+
+        { "_comment": "=== TEMPLATES ===" },
         {
           "src": "capsules/workout-af/System/Templates/Bases/Exercise.base",
           "dest": "System/Templates/Bases/Exercise.base"
@@ -1069,58 +668,6 @@
         {
           "src": "capsules/workout-af/System/Templates/Workout-Plan Template.md",
           "dest": "System/Templates/Workout-Plan Template.md"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/_themeTemplate.md",
-          "dest": "System/Themes/_themeTemplate.md"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/default.md",
-          "dest": "System/Themes/default.md"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/default2.md",
-          "dest": "System/Themes/default2.md"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/mewSpin.md",
-          "dest": "System/Themes/mewSpin.md"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/style-settings-crouchingTiger.json",
-          "dest": "System/Themes/style-settings-crouchingTiger.json"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/style-settings-hiddenDragon.json",
-          "dest": "System/Themes/style-settings-hiddenDragon.json"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/style-settings-killaBee.json",
-          "dest": "System/Themes/style-settings-killaBee.json"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/style-settings-makoBlue.json",
-          "dest": "System/Themes/style-settings-makoBlue.json"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/style-settings-mewSpin.json",
-          "dest": "System/Themes/style-settings-mewSpin.json"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/style-settings-redHawk.json",
-          "dest": "System/Themes/style-settings-redHawk.json"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/style-settings-savageCroc.json",
-          "dest": "System/Themes/style-settings-savageCroc.json"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/style-settings-violetViper.json",
-          "dest": "System/Themes/style-settings-violetViper.json"
-        },
-        {
-          "src": "capsules/workout-af/System/Themes/style-settings-whiteCrane.json",
-          "dest": "System/Themes/style-settings-whiteCrane.json"
         }
       ],
       "widgets": [
@@ -1140,6 +687,9 @@
       "description": "Meal planning, recipe management, shopping lists, and nutrition tracking",
       "icon": "🍽️",
       "source": "Kitchen AF",
+      "author": "BigSpoon33",
+      "requires": ["core-af"],
+      "coreFileBehavior": "skip",
       "activities": [
         {
           "id": "calories",
@@ -1194,8 +744,8 @@
           "managedBy": "dc-mealPlanner"
         }
       ],
-      "author": "BigSpoon33",
       "files": [
+        { "_comment": "=== CATEGORIES ===" },
         {
           "src": "capsules/kitchen-af/System/Categories/Meal Plans.md",
           "dest": "System/Categories/Meal Plans.md"
@@ -1204,90 +754,14 @@
           "src": "capsules/kitchen-af/System/Categories/Recipes.md",
           "dest": "System/Categories/Recipes.md"
         },
-        {
-          "src": "capsules/kitchen-af/System/Dashboards/Component-Showcase.md",
-          "dest": "System/Dashboards/Component-Showcase.md"
-        },
+
+        { "_comment": "=== PLANNERS ===" },
         {
           "src": "capsules/kitchen-af/System/Planners/Meal Planner.md",
           "dest": "System/Planners/Meal Planner.md"
         },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-backgroundPicker.jsx",
-          "dest": "System/Scripts/Components/dc-backgroundPicker.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-calendarPicker.jsx",
-          "dest": "System/Scripts/Components/dc-calendarPicker.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-colorPicker.jsx",
-          "dest": "System/Scripts/Components/dc-colorPicker.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-gloBadge.jsx",
-          "dest": "System/Scripts/Components/dc-gloBadge.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-gloBar.jsx",
-          "dest": "System/Scripts/Components/dc-gloBar.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-gloButton.jsx",
-          "dest": "System/Scripts/Components/dc-gloButton.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-gloCard.jsx",
-          "dest": "System/Scripts/Components/dc-gloCard.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-gloDial.jsx",
-          "dest": "System/Scripts/Components/dc-gloDial.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-gloInput.jsx",
-          "dest": "System/Scripts/Components/dc-gloInput.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-gloSelect.jsx",
-          "dest": "System/Scripts/Components/dc-gloSelect.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-gloTabs.jsx",
-          "dest": "System/Scripts/Components/dc-gloTabs.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-gloToggle.jsx",
-          "dest": "System/Scripts/Components/dc-gloToggle.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-gradientBuilder.jsx",
-          "dest": "System/Scripts/Components/dc-gradientBuilder.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-meditationAnimations.jsx",
-          "dest": "System/Scripts/Components/dc-meditationAnimations.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-stickyPreview.jsx",
-          "dest": "System/Scripts/Components/dc-stickyPreview.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Components/dc-themePreviewContent.jsx",
-          "dest": "System/Scripts/Components/dc-themePreviewContent.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Core/dc-dateContext.jsx",
-          "dest": "System/Scripts/Core/dc-dateContext.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Core/dc-gradientUtils.jsx",
-          "dest": "System/Scripts/Core/dc-gradientUtils.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Core/dc-themeProvider.jsx",
-          "dest": "System/Scripts/Core/dc-themeProvider.jsx"
-        },
+
+        { "_comment": "=== WIDGETS ===" },
         {
           "src": "capsules/kitchen-af/System/Scripts/Widgets/dc-mealPlanner.jsx",
           "dest": "System/Scripts/Widgets/dc-mealPlanner.jsx"
@@ -1297,33 +771,15 @@
           "dest": "System/Scripts/Widgets/dc-recipeEditor.jsx"
         },
         {
-          "src": "capsules/kitchen-af/System/Scripts/Widgets/dc-settings.jsx",
-          "dest": "System/Scripts/Widgets/dc-settings.jsx"
-        },
-        {
           "src": "capsules/kitchen-af/System/Scripts/Widgets/dc-shoppingList.jsx",
           "dest": "System/Scripts/Widgets/dc-shoppingList.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Widgets/dc-themeDashboard.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeDashboard.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Widgets/dc-themeEditor.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeEditor.jsx"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Scripts/Widgets/dc-themeStudio.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeStudio.jsx"
         },
         {
           "src": "capsules/kitchen-af/System/Scripts/Widgets/dc-todayMenu.jsx",
           "dest": "System/Scripts/Widgets/dc-todayMenu.jsx"
         },
-        {
-          "src": "capsules/kitchen-af/System/Settings.md",
-          "dest": "System/Settings.md"
-        },
+
+        { "_comment": "=== TEMPLATES ===" },
         {
           "src": "capsules/kitchen-af/System/Templates/Bases/Meal Plans.base",
           "dest": "System/Templates/Bases/Meal Plans.base"
@@ -1339,58 +795,6 @@
         {
           "src": "capsules/kitchen-af/System/Templates/Recipe Template.md",
           "dest": "System/Templates/Recipe Template.md"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/_themeTemplate.md",
-          "dest": "System/Themes/_themeTemplate.md"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/default.md",
-          "dest": "System/Themes/default.md"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/default2.md",
-          "dest": "System/Themes/default2.md"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/mewSpin.md",
-          "dest": "System/Themes/mewSpin.md"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/style-settings-crouchingTiger.json",
-          "dest": "System/Themes/style-settings-crouchingTiger.json"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/style-settings-hiddenDragon.json",
-          "dest": "System/Themes/style-settings-hiddenDragon.json"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/style-settings-killaBee.json",
-          "dest": "System/Themes/style-settings-killaBee.json"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/style-settings-makoBlue.json",
-          "dest": "System/Themes/style-settings-makoBlue.json"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/style-settings-mewSpin.json",
-          "dest": "System/Themes/style-settings-mewSpin.json"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/style-settings-redHawk.json",
-          "dest": "System/Themes/style-settings-redHawk.json"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/style-settings-savageCroc.json",
-          "dest": "System/Themes/style-settings-savageCroc.json"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/style-settings-violetViper.json",
-          "dest": "System/Themes/style-settings-violetViper.json"
-        },
-        {
-          "src": "capsules/kitchen-af/System/Themes/style-settings-whiteCrane.json",
-          "dest": "System/Themes/style-settings-whiteCrane.json"
         }
       ],
       "widgets": [
@@ -1407,31 +811,66 @@
       "id": "rice-af",
       "name": "Rice AF",
       "version": "1.0.0",
-      "description": "Core theme system with Theme Dashboard, Theme Editor, and Themes",
-      "icon": "",
+      "description": "Extended theme collection with additional color schemes and presets",
+      "icon": "🎨",
       "source": "Rice AF",
-      "activities": [],
       "author": "BigSpoon33",
+      "requires": ["core-af"],
+      "coreFileBehavior": "skip",
+      "activities": [],
       "files": [
-        {
-          "src": "capsules/rice-af/System/dc-themeProvider.jsx",
-          "dest": "System/Scripts/Core/dc-themeProvider.jsx"
-        },
+        { "_comment": "=== THEME DASHBOARD ===" },
         {
           "src": "capsules/rice-af/System/Dashboards/Theme-Dashboard.md",
           "dest": "System/Dashboards/Theme-Dashboard.md"
         },
+
+        { "_comment": "=== EXTRA THEMES ===" },
         {
-          "src": "capsules/rice-af/System/Scripts/Widgets/dc-themeDashboard.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeDashboard.jsx"
+          "src": "capsules/rice-af/System/Themes/default2.md",
+          "dest": "System/Themes/default2.md"
         },
         {
-          "src": "capsules/rice-af/System/Scripts/Widgets/dc-themeEditor.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeEditor.jsx"
+          "src": "capsules/rice-af/System/Themes/mewSpin.md",
+          "dest": "System/Themes/mewSpin.md"
+        },
+
+        { "_comment": "=== STYLE SETTINGS PRESETS ===" },
+        {
+          "src": "capsules/rice-af/System/Themes/style-settings-crouchingTiger.json",
+          "dest": "System/Themes/style-settings-crouchingTiger.json"
         },
         {
-          "src": "capsules/rice-af/System/Scripts/Widgets/dc-themeStudio.jsx",
-          "dest": "System/Scripts/Widgets/dc-themeStudio.jsx"
+          "src": "capsules/rice-af/System/Themes/style-settings-hiddenDragon.json",
+          "dest": "System/Themes/style-settings-hiddenDragon.json"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/style-settings-killaBee.json",
+          "dest": "System/Themes/style-settings-killaBee.json"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/style-settings-makoBlue.json",
+          "dest": "System/Themes/style-settings-makoBlue.json"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/style-settings-mewSpin.json",
+          "dest": "System/Themes/style-settings-mewSpin.json"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/style-settings-redHawk.json",
+          "dest": "System/Themes/style-settings-redHawk.json"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/style-settings-savageCroc.json",
+          "dest": "System/Themes/style-settings-savageCroc.json"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/style-settings-violetViper.json",
+          "dest": "System/Themes/style-settings-violetViper.json"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/style-settings-whiteCrane.json",
+          "dest": "System/Themes/style-settings-whiteCrane.json"
         }
       ]
     }
@@ -1463,20 +902,8 @@
     "System/Scripts/Widgets/dc-themeEditor.jsx",
     "System/Scripts/Widgets/dc-themeStudio.jsx",
     "System/Dashboards/Daily Wrapper.md",
-    "System/Dashboards/Component-Showcase.md",
     "System/Themes/_themeTemplate.md",
     "System/Themes/default.md",
-    "System/Themes/default2.md",
-    "System/Themes/mewSpin.md",
-    "System/Themes/style-settings-crouchingTiger.json",
-    "System/Themes/style-settings-hiddenDragon.json",
-    "System/Themes/style-settings-killaBee.json",
-    "System/Themes/style-settings-makoBlue.json",
-    "System/Themes/style-settings-mewSpin.json",
-    "System/Themes/style-settings-redHawk.json",
-    "System/Themes/style-settings-savageCroc.json",
-    "System/Themes/style-settings-violetViper.json",
-    "System/Themes/style-settings-whiteCrane.json",
     "System/Templates/Daily Note Template.md"
   ]
 }

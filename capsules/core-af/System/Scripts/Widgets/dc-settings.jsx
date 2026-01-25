@@ -33,6 +33,96 @@ const REMOTE_MANIFEST_URL = "https://raw.githubusercontent.com/BigSpoon33/Vault-
 const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/BigSpoon33/Vault-Capsules/main";
 
 // ─────────────────────────────────────────────────────────────────────────────
+// SEMVER: Semantic version comparison
+// ─────────────────────────────────────────────────────────────────────────────
+const compareSemver = (a, b) => {
+    const parseVersion = (v) => {
+        const [main, pre] = (v || '0.0.0').split('-');
+        const [major, minor, patch] = main.split('.').map(n => parseInt(n, 10) || 0);
+        return { major, minor, patch, pre: pre || '' };
+    };
+
+    const va = parseVersion(a);
+    const vb = parseVersion(b);
+
+    if (va.major !== vb.major) return va.major - vb.major;
+    if (va.minor !== vb.minor) return va.minor - vb.minor;
+    if (va.patch !== vb.patch) return va.patch - vb.patch;
+
+    // Pre-release versions are lower than release versions
+    if (va.pre && !vb.pre) return -1;
+    if (!va.pre && vb.pre) return 1;
+    return va.pre.localeCompare(vb.pre);
+};
+
+// Returns true if 'available' is newer than 'installed'
+const hasNewerVersion = (installed, available) => compareSemver(installed, available) < 0;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BACKUP: File backup before overwrite
+// ─────────────────────────────────────────────────────────────────────────────
+const backupFile = async (filePath) => {
+    const file = app.vault.getAbstractFileByPath(filePath);
+    if (!file) return null;
+
+    try {
+        const content = await app.vault.read(file);
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const backupPath = `System/Backups/${filePath.replace(/\//g, '_')}_${timestamp}`;
+
+        // Ensure backup directory exists
+        const backupDir = 'System/Backups';
+        if (!app.vault.getAbstractFileByPath(backupDir)) {
+            await app.vault.createFolder(backupDir);
+        }
+
+        await app.vault.create(backupPath, content);
+        console.log(`[Capsules] Backed up: ${filePath} -> ${backupPath}`);
+        return backupPath;
+    } catch (e) {
+        console.error(`[Capsules] Failed to backup ${filePath}:`, e);
+        return null;
+    }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONFLICT: Check if local file differs from remote content
+// ─────────────────────────────────────────────────────────────────────────────
+const detectConflict = async (localPath, remoteContent) => {
+    const file = app.vault.getAbstractFileByPath(localPath);
+    if (!file) return { hasConflict: false, reason: 'new' };
+
+    try {
+        const localContent = await app.vault.read(file);
+        if (localContent === remoteContent) {
+            return { hasConflict: false, reason: 'identical' };
+        }
+
+        return {
+            hasConflict: true,
+            reason: 'modified',
+            localLength: localContent.length,
+            remoteLength: remoteContent.length
+        };
+    } catch (e) {
+        console.error(`[Capsules] Failed to detect conflict for ${localPath}:`, e);
+        return { hasConflict: false, reason: 'error' };
+    }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DEPENDENCIES: Check if required capsules are installed
+// ─────────────────────────────────────────────────────────────────────────────
+const checkDependencies = (capsule, installedCapsules) => {
+    const requires = capsule.requires || [];
+    const missing = requires.filter(reqId => !installedCapsules[reqId]);
+    return {
+        satisfied: missing.length === 0,
+        missing
+    };
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // HELPER: Load/Save Settings - parses YAML directly from file (no cache)
 // ─────────────────────────────────────────────────────────────────────────────
 async function loadSettings() {
@@ -329,26 +419,47 @@ function CapsulesSection({ settings, onUpdate, theme }) {
 
     // Clone (install) a capsule
     const cloneCapsule = async (capsule) => {
+        // 1. Check dependencies first
+        const deps = checkDependencies(capsule, installedCapsules);
+        if (!deps.satisfied) {
+            setOperationStatus(prev => ({
+                ...prev,
+                [capsule.id]: {
+                    status: "error",
+                    message: `Missing: ${deps.missing.join(', ')}. Install core-af first.`
+                }
+            }));
+            new Notice(`Cannot install ${capsule.name}: requires ${deps.missing.join(', ')}`);
+            return;
+        }
+
         setOperationStatus(prev => ({ ...prev, [capsule.id]: { status: "cloning", message: "Downloading..." } }));
 
         try {
             const installedFiles = [];
+            const backedUpFiles = [];
+            const conflicts = [];
 
-            // Get core files that should NOT be overwritten during install
+            // Get core files list and per-capsule behavior
             const coreFiles = manifest?.coreFiles || [];
+            const capsuleBehavior = capsule.coreFileBehavior || 'skip'; // Default: skip
 
             for (const file of capsule.files) {
-                // SKIP core files during install - but only if they already exist
-                // First install: core files don't exist → download them
-                // Reinstall: core files exist → skip (preserve customizations)
-                if (coreFiles.includes(file.dest)) {
-                    const existingFile = app.vault.getAbstractFileByPath(file.dest);
-                    if (existingFile) {
+                // Skip _comment entries (manifest organization)
+                if (file._comment) continue;
+
+                const isCoreFile = coreFiles.includes(file.dest);
+                const existingFile = app.vault.getAbstractFileByPath(file.dest);
+
+                // Core file handling based on per-capsule behavior
+                if (isCoreFile && existingFile) {
+                    if (capsuleBehavior === 'skip') {
                         console.log(`[Capsules] Skipping core file (exists): ${file.dest}`);
                         installedFiles.push(file.dest);
                         continue;
                     }
-                    console.log(`[Capsules] Core file missing, installing: ${file.dest}`);
+                    // capsuleBehavior === 'update' - proceed to download and overwrite
+                    console.log(`[Capsules] Updating core file: ${file.dest}`);
                 }
 
                 const fileUrl = `${GITHUB_RAW_BASE}/${file.src}?t=${Date.now()}`;
@@ -359,8 +470,23 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                 }));
 
                 const response = await fetch(fileUrl);
-                if (!response.ok) throw new Error(`Failed to fetch ${file.src}: HTTP ${response.status}`);
+                if (!response.ok) {
+                    console.error(`[Capsules] Failed to fetch: ${file.dest}`);
+                    continue;
+                }
                 const content = await response.text();
+
+                // Conflict detection & backup for existing non-core files
+                if (existingFile && !isCoreFile) {
+                    const conflict = await detectConflict(file.dest, content);
+                    if (conflict.hasConflict) {
+                        const backupPath = await backupFile(file.dest);
+                        if (backupPath) {
+                            backedUpFiles.push({ original: file.dest, backup: backupPath });
+                        }
+                        conflicts.push(file.dest);
+                    }
+                }
 
                 // Ensure directory exists
                 const destDir = file.dest.split('/').slice(0, -1).join('/');
@@ -372,7 +498,6 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                 }
 
                 // Write or update file
-                const existingFile = app.vault.getAbstractFileByPath(file.dest);
                 if (existingFile) {
                     await app.vault.modify(existingFile, content);
                 } else {
@@ -435,11 +560,25 @@ function CapsulesSection({ settings, onUpdate, theme }) {
             const freshSettings = await loadSettings();
             onUpdate({});
 
-            setOperationStatus(prev => ({
-                ...prev,
-                [capsule.id]: { status: "success", message: `Installed v${capsule.version}` }
-            }));
-            new Notice(`Installed ${capsule.name} v${capsule.version}`);
+            // Show conflict/backup notification if any
+            if (backedUpFiles.length > 0) {
+                console.log(`[Capsules] ${backedUpFiles.length} files backed up before overwrite`);
+                setOperationStatus(prev => ({
+                    ...prev,
+                    [capsule.id]: {
+                        status: "success",
+                        message: `Installed v${capsule.version}. ${backedUpFiles.length} file(s) backed up.`,
+                        backedUpFiles
+                    }
+                }));
+                new Notice(`Installed ${capsule.name} v${capsule.version}. ${backedUpFiles.length} file(s) backed up to System/Backups/`);
+            } else {
+                setOperationStatus(prev => ({
+                    ...prev,
+                    [capsule.id]: { status: "success", message: `Installed v${capsule.version}` }
+                }));
+                new Notice(`Installed ${capsule.name} v${capsule.version}`);
+            }
         } catch (err) {
             setOperationStatus(prev => ({
                 ...prev,
@@ -546,8 +685,9 @@ function CapsulesSection({ settings, onUpdate, theme }) {
         }
 
         if (installed) {
-            const hasUpdate = capsule && installed.version !== capsule.version;
-            if (hasUpdate) {
+            // Use semver comparison instead of string comparison
+            const updateAvailable = capsule && hasNewerVersion(installed.version, capsule.version);
+            if (updateAvailable) {
                 return <GloBadge label={`⬆️ Update: v${capsule.version}`} color={warning} size="small" />;
             }
             return <GloBadge label={`✓ v${installed.version}`} color={success} size="small" />;
@@ -609,9 +749,15 @@ function CapsulesSection({ settings, onUpdate, theme }) {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 12 }}>
                 {filteredCapsules.map(capsule => {
                     const installed = installedCapsules[capsule.id];
-                    const hasUpdate = installed && installed.version !== capsule.version;
+                    // Use semver comparison for update detection
+                    const hasUpdate = installed && hasNewerVersion(installed.version, capsule.version);
                     const isOperating = ["cloning", "pulling", "deleting"].includes(operationStatus[capsule.id]?.status);
                     const activityCount = capsule.activities?.length || 0;
+                    // Check dependencies - blocks installation if not met
+                    const deps = checkDependencies(capsule, installedCapsules);
+                    const isInstalled = !!installed;
+                    // Filter out _comment entries from file count
+                    const fileCount = capsule.files?.filter(f => !f._comment).length || 0;
 
                     return (
                         <GloCard key={capsule.id} padding="16px">
@@ -639,9 +785,17 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                                     </div>
                                     <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                                         {capsule.source && <GloBadge label={capsule.source} color={primary} size="small" />}
-                                        <GloBadge label={`${capsule.files?.length || 0} files`} color={textMuted} size="small" />
+                                        <GloBadge label={`${fileCount} files`} color={textMuted} size="small" />
                                         {activityCount > 0 && (
                                             <GloBadge label={`${activityCount} activities`} color={textMuted} size="small" />
+                                        )}
+                                        {/* Dependency warning badge - shown when deps not satisfied and not installed */}
+                                        {!deps.satisfied && !isInstalled && (
+                                            <GloBadge
+                                                label={`Requires: ${deps.missing.join(', ')}`}
+                                                color={errorColor}
+                                                size="small"
+                                            />
                                         )}
                                         {getStatusBadge(capsule.id, capsule)}
                                     </div>
@@ -662,7 +816,7 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                                 </div>
                             )}
 
-                            {/* File list preview */}
+                            {/* File list preview - filter out _comment entries */}
                             <div style={{
                                 marginTop: 8,
                                 padding: "8px 12px",
@@ -674,7 +828,7 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                                 maxHeight: 50,
                                 overflow: "auto"
                             }}>
-                                {capsule.files?.map(f => f.dest).join("\n")}
+                                {capsule.files?.filter(f => !f._comment).map(f => f.dest).join("\n")}
                             </div>
 
                             {/* Action buttons */}
@@ -702,13 +856,14 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                                     </>
                                 ) : (
                                     <GloButton
-                                        label="Install"
+                                        label={deps.satisfied ? "Install" : "Install (Blocked)"}
                                         icon="📥"
                                         size="small"
-                                        variant="primary"
+                                        variant={deps.satisfied ? "primary" : "ghost"}
                                         onClick={() => cloneCapsule(capsule)}
-                                        disabled={isOperating}
-                                        glow
+                                        disabled={isOperating || !deps.satisfied}
+                                        glow={deps.satisfied}
+                                        style={!deps.satisfied ? { opacity: 0.5 } : {}}
                                     />
                                 )}
                             </div>
