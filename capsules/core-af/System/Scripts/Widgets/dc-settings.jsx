@@ -528,14 +528,31 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                 const destDir = file.dest.split('/').slice(0, -1).join('/');
                 await ensureDirectoryExists(destDir);
 
-                // Write or update file
-                if (existingFile) {
-                    await app.vault.modify(existingFile, content);
-                } else {
-                    await app.vault.create(file.dest, content);
+                // Write or update file (with error handling to not break the loop)
+                try {
+                    if (existingFile) {
+                        await app.vault.modify(existingFile, content);
+                    } else {
+                        await app.vault.create(file.dest, content);
+                    }
+                    installedFiles.push(file.dest);
+                } catch (writeErr) {
+                    // If create fails because file exists (race condition), try modify
+                    if (writeErr.message?.includes('already exists')) {
+                        try {
+                            const retryFile = app.vault.getAbstractFileByPath(file.dest);
+                            if (retryFile) {
+                                await app.vault.modify(retryFile, content);
+                                installedFiles.push(file.dest);
+                                console.log(`[Capsules] Recovered from race condition: ${file.dest}`);
+                            }
+                        } catch (retryErr) {
+                            console.error(`[Capsules] Failed to write ${file.dest}:`, retryErr);
+                        }
+                    } else {
+                        console.error(`[Capsules] Failed to write ${file.dest}:`, writeErr);
+                    }
                 }
-
-                installedFiles.push(file.dest);
             }
 
             // Use atomic processFrontMatter to read-modify-write in one operation
