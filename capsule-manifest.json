@@ -834,6 +834,30 @@
           "src": "capsules/rice-af/System/Themes/mewSpin.md",
           "dest": "System/Themes/mewSpin.md"
         },
+        {
+          "src": "capsules/rice-af/System/Themes/bongoCat.md",
+          "dest": "System/Themes/bongoCat.md"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/Charizard.md",
+          "dest": "System/Themes/Charizard.md"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/dittoDance.md",
+          "dest": "System/Themes/dittoDance.md"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/e-ink-01.md",
+          "dest": "System/Themes/e-ink-01.md"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/orangeOrangu.md",
+          "dest": "System/Themes/orangeOrangu.md"
+        },
+        {
+          "src": "capsules/rice-af/System/Themes/rareParrot.md",
+          "dest": "System/Themes/rareParrot.md"
+        },
 
         { "_comment": "=== STYLE SETTINGS PRESETS ===" },
         {
