@@ -604,8 +604,10 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                 console.log('[Capsules] Activities count:', fm["activities"].length);
             });
 
+            // Wait for file system and metadata cache to sync after frontmatter update
+            await new Promise(r => setTimeout(r, 200));
+
             // Notify parent to refresh
-            const freshSettings = await loadSettings();
             onUpdate({});
 
             // Show conflict/backup notification if any
@@ -694,6 +696,9 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                 const allInstalledIds = Object.keys(currentInstalledCapsules);
                 fm["activities"] = computeActivitiesForCapsules(allInstalledIds, manifest?.capsules || []);
             });
+
+            // Wait for file system and metadata cache to sync after frontmatter update
+            await new Promise(r => setTimeout(r, 200));
 
             // Notify parent to refresh
             onUpdate({});
