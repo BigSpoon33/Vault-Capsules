@@ -70,10 +70,16 @@ const backupFile = async (filePath) => {
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
         const backupPath = `System/Backups/${filePath.replace(/\//g, '_')}_${timestamp}`;
 
-        // Ensure backup directory exists
+        // Ensure backup directory exists (uses ensureDirectoryExists defined below)
         const backupDir = 'System/Backups';
-        if (!app.vault.getAbstractFileByPath(backupDir)) {
-            await app.vault.createFolder(backupDir);
+        const existing = app.vault.getAbstractFileByPath(backupDir);
+        if (!existing) {
+            // Create System first, then System/Backups
+            const systemDir = app.vault.getAbstractFileByPath('System');
+            if (!systemDir) {
+                try { await app.vault.createFolder('System'); } catch (e) { /* ignore if exists */ }
+            }
+            try { await app.vault.createFolder(backupDir); } catch (e) { /* ignore if exists */ }
         }
 
         await app.vault.create(backupPath, content);
@@ -120,6 +126,36 @@ const checkDependencies = (capsule, installedCapsules) => {
         satisfied: missing.length === 0,
         missing
     };
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HELPER: Recursively create nested directories
+// ─────────────────────────────────────────────────────────────────────────────
+const ensureDirectoryExists = async (dirPath) => {
+    if (!dirPath) return;
+
+    // Check if directory already exists
+    const existing = app.vault.getAbstractFileByPath(dirPath);
+    if (existing) return;
+
+    // Split path and create each level
+    const parts = dirPath.split('/');
+    let currentPath = '';
+
+    for (const part of parts) {
+        currentPath = currentPath ? `${currentPath}/${part}` : part;
+        const exists = app.vault.getAbstractFileByPath(currentPath);
+        if (!exists) {
+            try {
+                await app.vault.createFolder(currentPath);
+            } catch (e) {
+                // Folder might have been created by another process, ignore
+                if (!e.message?.includes('already exists')) {
+                    console.error(`[Capsules] Failed to create folder ${currentPath}:`, e);
+                }
+            }
+        }
+    }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -488,14 +524,9 @@ function CapsulesSection({ settings, onUpdate, theme }) {
                     }
                 }
 
-                // Ensure directory exists
+                // Ensure directory exists (handles nested paths like .obsidian/snippets)
                 const destDir = file.dest.split('/').slice(0, -1).join('/');
-                if (destDir) {
-                    const dirExists = app.vault.getAbstractFileByPath(destDir);
-                    if (!dirExists) {
-                        await app.vault.createFolder(destDir);
-                    }
-                }
+                await ensureDirectoryExists(destDir);
 
                 // Write or update file
                 if (existingFile) {
