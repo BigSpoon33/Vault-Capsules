@@ -142,6 +142,21 @@
         {
           "src": "capsules/core-af/System/Templates/Daily Note Template.md",
           "dest": "System/Templates/Daily Note Template.md"
+        },
+
+        { "_comment": "=== CSS ===" },
+        {
+          "src": "capsules/core-af/.obsidian/snippets/clean-embeds.css",
+          "dest": ".obsidian/snippets/clean-embeds.css"
+        }
+      ],
+      "widgets": [
+        {
+          "id": "journal",
+          "label": "Journal",
+          "icon": "📝",
+          "widget": null,
+          "description": "Daily journaling with auto-save"
         }
       ]
     },

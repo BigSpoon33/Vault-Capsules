@@ -1,0 +1,9 @@
+/* Hide embed border specifically for Theme Studio */
+.markdown-preview-view .markdown-embed:has(.dc-theme-studio-container) {
+    border-left: none !important;
+    padding-left: 0 !important;
+    background: transparent !important;
+}
+.markdown-preview-view .markdown-embed:has(.dc-theme-studio-container) .markdown-embed-link {
+    display: none !important;
+}
