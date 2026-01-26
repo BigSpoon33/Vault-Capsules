@@ -1,0 +1,11 @@
+{
+  "cssTheme": "Minimal",
+  "enabledCssSnippets": [
+    "clean-embeds",
+    "noyaml"
+  ],
+  "accentColor": "#06DBBD",
+  "interfaceFontFamily": "DejaVu Sans Mono",
+  "textFontFamily": "DejaVu Sans",
+  "monospaceFontFamily": "DejaVu Sans Mono"
+}

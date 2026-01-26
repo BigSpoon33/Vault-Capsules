@@ -1,0 +1,28 @@
+{
+  "recentFiles": [
+    {
+      "basename": "Daily Wrapper",
+      "path": "System/Dashboards/Daily Wrapper.md"
+    },
+    {
+      "basename": "mini-calendar-default",
+      "path": "System/TaskNotes/Views/mini-calendar-default.base"
+    },
+    {
+      "basename": "agenda-default",
+      "path": "System/TaskNotes/Views/agenda-default.base"
+    },
+    {
+      "basename": "2026-01-25 Journal",
+      "path": "System/Journals/2026-01-25 Journal.md"
+    },
+    {
+      "basename": "Settings",
+      "path": "System/Settings.md"
+    }
+  ],
+  "omittedPaths": [],
+  "omittedTags": [],
+  "updateOn": "file-open",
+  "omitBookmarks": false
+}

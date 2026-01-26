@@ -1,0 +1,50 @@
+{
+  "path1268": {
+    "key": "lower_trapezius",
+    "label": "Trapezius",
+    "view": "posterior",
+    "type": "muscle"
+  },
+  "path1211": {
+    "key": "upper_trapezius",
+    "label": "Trapezius",
+    "view": "anterior",
+    "type": "muscle"
+  },
+  "path861": {
+    "key": "deltoid",
+    "label": "Deltoid",
+    "view": "anterior",
+    "type": "muscle"
+  },
+  "path847": {
+    "key": "pectoralis",
+    "label": "Pectoralis",
+    "view": "anterior",
+    "type": "muscle"
+  },
+  "path950": {
+    "key": "oblique",
+    "label": "Oblique",
+    "view": "anterior",
+    "type": "muscle"
+  },
+  "path1337": {
+    "key": "sarotorious",
+    "label": "Sarotorious",
+    "view": "anterior",
+    "type": "muscle"
+  },
+  "path1366": {
+    "key": "rectus_femoris",
+    "label": "Rectus Femoris",
+    "view": "anterior",
+    "type": "muscle"
+  },
+  "path1012": {
+    "key": "rectus_abdominis",
+    "label": "Rectus Abdominis",
+    "view": "anterior",
+    "type": "muscle"
+  }
+}

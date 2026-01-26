@@ -1,0 +1,64 @@
+filters:
+  and:
+    - note.categories.contains("Exercise")
+    - '!file.name.contains("Template")'
+properties:
+  file.name:
+    displayName: Name
+  note.type:
+    displayName: Type
+  note.target:
+    displayName: Target Muscles
+  note.equipment:
+    displayName: Equipment
+  note.duration:
+    displayName: Duration (min)
+  note.sets:
+    displayName: Sets
+  note.reps:
+    displayName: Reps
+  note.rating:
+    displayName: Rating
+  note.last:
+    displayName: Last Done
+views:
+  - type: table
+    name: All Exercises
+    order:
+      - file.name
+      - type
+      - target
+      - equipment
+      - sets
+      - reps
+      - rating
+      - last
+    sort:
+      - property: last
+        direction: DESC
+    columnSize:
+      note.type: 120
+      note.target: 180
+      note.equipment: 150
+  - type: table
+    name: By Type
+    order:
+      - type
+      - file.name
+      - target
+      - equipment
+      - duration
+    sort:
+      - property: type
+        direction: ASC
+  - type: table
+    name: By Target Muscle
+    order:
+      - target
+      - file.name
+      - type
+      - sets
+      - reps
+    sort:
+      - property: target
+        direction: ASC

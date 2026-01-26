@@ -1,0 +1,29 @@
+/* Snippet Name: hide-properties.css
+    Usage: Add 'cssclasses: noyaml' to your note's frontmatter.
+*/
+
+/* Hides Properties in Reading Mode */
+.workspace-leaf-content[data-mode="preview"] .markdown-preview-view.noyaml .metadata-container {
+    display: none !important;
+}
+
+/* Hides Properties in Live Preview (Editing Mode) */
+.workspace-leaf-content[data-mode="source"] .markdown-source-view.mod-cm6.noyaml .metadata-container {
+    display: none !important;
+}
+
+/* Snippet: hide-title.css 
+   Usage: Add 'cssclasses: no-title' to your note's frontmatter
+*/
+
+/* Hides the Inline Title (the big bold text at the top) */
+.workspace-leaf-content[data-mode="preview"] .markdown-preview-view.no-title .inline-title,
+.workspace-leaf-content[data-mode="source"] .markdown-source-view.mod-cm6.no-title .inline-title {
+    display: none !important;
+}
+
+/* Hides the View Header (the icon and title bar above the note) */
+.workspace-leaf-content[data-mode="preview"] .markdown-preview-view.no-title .view-header,
+.workspace-leaf-content[data-mode="source"] .markdown-source-view.mod-cm6.no-title .view-header {
+    display: none !important;
+}

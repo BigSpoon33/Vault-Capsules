@@ -1,0 +1,112 @@
+filters:
+  and:
+    - categories.contains(link("Classes"))
+    - '!file.name.contains("Template")'
+properties:
+  file.name:
+    displayName: Course
+  note.course-code:
+    displayName: Code
+  note.semester:
+    displayName: Semester
+  note.instructor:
+    displayName: Instructor
+  note.status:
+    displayName: Status
+  note.grade:
+    displayName: Grade
+  note.credits:
+    displayName: Credits
+  note.year:
+    displayName: Year
+views:
+  - type: table
+    name: Open
+    filters:
+      and:
+        - list(status).contains("open")
+    order:
+      - file.name
+      - course-code
+      - instructor
+      - semester
+      - credits
+    sort:
+      - property: semester
+        direction: DESC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 250
+      note.course-code: 100
+      note.semester: 120
+  - type: table
+    name: All Classes
+    order:
+      - file.name
+      - course-code
+      - semester
+      - status
+      - grade
+      - instructor
+      - credits
+    sort:
+      - property: semester
+        direction: DESC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 250
+      note.course-code: 100
+  - type: table
+    name: By Semester
+    order:
+      - semester
+      - file.name
+      - course-code
+      - status
+      - grade
+      - credits
+    sort:
+      - property: semester
+        direction: DESC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      note.semester: 120
+      file.name: 230
+  - type: table
+    name: Done
+    filters:
+      and:
+        - list(status).contains("done")
+    order:
+      - file.name
+      - semester
+      - grade
+      - instructor
+      - credits
+    sort:
+      - property: semester
+        direction: DESC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 250
+      note.grade: 80
+  - type: table
+    name: By Instructor
+    order:
+      - instructor
+      - file.name
+      - semester
+      - course-code
+      - status
+    sort:
+      - property: instructor
+        direction: ASC
+      - property: semester
+        direction: DESC
+    columnSize:
+      note.instructor: 150
+      file.name: 200
