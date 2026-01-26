@@ -1,9 +1,8 @@
 ---
 cssclasses:
-  - dashboard
   - noyaml
 tags:
-  - daily
+  - home
 ---
 ```datacorejsx
 const { DailyWrapper } = await dc.require(dc.fileLink("System/Scripts/Wrappers/dc-dailyWrapper.jsx"));

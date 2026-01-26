@@ -148,6 +148,10 @@
         {
           "src": "capsules/core-af/.obsidian/snippets/clean-embeds.css",
           "dest": ".obsidian/snippets/clean-embeds.css"
+        },
+        {
+          "src": "capsules/core-af/.obsidian/snippets/noyaml.css",
+          "dest": ".obsidian/snippets/noyaml.css"
         }
       ],
       "widgets": [
@@ -163,7 +167,7 @@
     {
       "id": "active-af",
       "name": "Active AF",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "Activity tracking, meditation, sleep, water intake, journaling, and daily wellness tools",
       "icon": "🎯",
       "source": "Active AF",
@@ -345,31 +349,6 @@
           "icon": "📉",
           "widget": "dc-activityTracker",
           "description": "Heatmaps & trend graphs"
-        }
-      ]
-    },
-    {
-      "id": "daily-af",
-      "name": "Daily AF",
-      "version": "1.0.0",
-      "description": "Core daily note system with journaling widget",
-      "icon": "📅",
-      "source": "Daily AF",
-      "author": "BigSpoon33",
-      "requires": ["core-af"],
-      "coreFileBehavior": "skip",
-      "activities": [],
-      "files": [
-        { "_comment": "=== DAILY-AF SPECIFIC FILES ONLY ===" },
-        { "_comment": "All core files (components, settings, themes) come from core-af" }
-      ],
-      "widgets": [
-        {
-          "id": "journal",
-          "label": "Journal",
-          "icon": "📝",
-          "widget": null,
-          "description": "Daily journaling with auto-save"
         }
       ]
     },
