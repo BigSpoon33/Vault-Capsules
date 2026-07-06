@@ -33,6 +33,19 @@ Vault-Capsules is a modular Obsidian vault ecosystem that lets you pick and choo
 | **workout-af** | Exercise tracking | Workout builder, muscle maps, exercise library, weekly routines |
 | **academic-af** | Academic management | Course tracking, assignments, exams, lecture notes, term planning |
 | **rice-af** | Theme engine | Theme Studio, sprite packs, color schemes, gradient builder |
+| **inkwell-companion** | Inkwell companion add-on | Coursework importer, synthetic sample class |
+
+---
+
+## Inkwell Companion
+
+`inkwell-companion` is the paid companion add-on for Inkwell students: **offline and eternal — own your school knowledge forever.**
+
+Everything Inkwell teaches you — lessons, labs, quizzes, flashcards, slides, guided conversations — lands as plain markdown in your own vault via the included importer (`tools/inkwell-import.ts`, run with Bun; see `System/Docs/Inkwell Import.md` after installing). No account required to try it: the capsule ships `Knowledge/Introduction to Linux/`, a synthetic sample class, so you can see the layout before connecting Inkwell.
+
+If Inkwell ever shuts down, your coursework doesn't disappear with it. It's already yours, in `Knowledge/`, on your disk.
+
+Requires `academic-af`.
 
 ---
 

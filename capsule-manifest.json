@@ -891,6 +891,70 @@
           "dest": "System/Themes/style-settings-whiteCrane.json"
         }
       ]
+    },
+    {
+      "id": "inkwell-companion",
+      "name": "Inkwell Companion",
+      "version": "1.0.0",
+      "description": "Inkwell coursework importer + a synthetic sample class, for students using the vault as their offline Inkwell companion",
+      "icon": "🪶",
+      "source": "Inkwell Companion",
+      "author": "BigSpoon33",
+      "requires": ["academic-af"],
+      "coreFileBehavior": "skip",
+      "activities": [],
+      "files": [
+        { "_comment": "=== IMPORTER (Bun script, run from a terminal - see System/Docs/Inkwell Import.md) ===" },
+        {
+          "src": "capsules/inkwell-companion/tools/inkwell-import.ts",
+          "dest": "tools/inkwell-import.ts"
+        },
+        {
+          "src": "capsules/inkwell-companion/tools/yaml-mini.ts",
+          "dest": "tools/yaml-mini.ts"
+        },
+
+        { "_comment": "=== DOCS ===" },
+        {
+          "src": "capsules/inkwell-companion/System/Docs/Inkwell Import.md",
+          "dest": "System/Docs/Inkwell Import.md"
+        },
+
+        { "_comment": "=== SAMPLE CLASS ===" },
+        {
+          "src": "capsules/inkwell-companion/Knowledge/Introduction to Linux/Introduction to Linux.md",
+          "dest": "Knowledge/Introduction to Linux/Introduction to Linux.md"
+        },
+        {
+          "src": "capsules/inkwell-companion/Knowledge/Introduction to Linux/Lessons/Terminal Basics.md",
+          "dest": "Knowledge/Introduction to Linux/Lessons/Terminal Basics.md"
+        },
+        {
+          "src": "capsules/inkwell-companion/Knowledge/Introduction to Linux/Lessons/The File System.md",
+          "dest": "Knowledge/Introduction to Linux/Lessons/The File System.md"
+        },
+        {
+          "src": "capsules/inkwell-companion/Knowledge/Introduction to Linux/Labs/Lab_ File System Navigation.md",
+          "dest": "Knowledge/Introduction to Linux/Labs/Lab_ File System Navigation.md"
+        },
+        {
+          "src": "capsules/inkwell-companion/Knowledge/Introduction to Linux/Quizzes/Quiz_ Linux Basics.md",
+          "dest": "Knowledge/Introduction to Linux/Quizzes/Quiz_ Linux Basics.md"
+        },
+        {
+          "src": "capsules/inkwell-companion/Knowledge/Introduction to Linux/Flashcards/Flashcards_ Linux Basics.md",
+          "dest": "Knowledge/Introduction to Linux/Flashcards/Flashcards_ Linux Basics.md"
+        },
+        {
+          "src": "capsules/inkwell-companion/Knowledge/Introduction to Linux/Slides/Slides_ Linux Overview.md",
+          "dest": "Knowledge/Introduction to Linux/Slides/Slides_ Linux Overview.md"
+        },
+        {
+          "src": "capsules/inkwell-companion/Knowledge/Introduction to Linux/Conversations/Guided Conversation_ File Permissions.md",
+          "dest": "Knowledge/Introduction to Linux/Conversations/Guided Conversation_ File Permissions.md"
+        }
+      ],
+      "widgets": []
     }
   ],
   "coreFiles": [
